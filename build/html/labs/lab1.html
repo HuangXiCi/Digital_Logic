@@ -1,0 +1,144 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>实验一 异或门 &mdash; 深圳理工大学-数字逻辑基础与Verilog设计-实验课程 0.1 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=7c91f8fd"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="TODO" href="TODO.html" />
+    <link rel="prev" title="深圳理工大学 数字逻辑基础与Verilog设计 实验课程" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            深圳理工大学-数字逻辑基础与Verilog设计-实验课程
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">实验课程目录</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">实验一 异或门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#logisim">Logisim教程</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">搭建 Logisim 环境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">熟悉 Logisim 界面</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验二 全加器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验三 编码器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验四 数据选择器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验五 加法器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验六 加减法器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验七 比较器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验八 寄存器</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">深圳理工大学-数字逻辑基础与Verilog设计-实验课程</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">实验一 异或门</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/labs/lab1.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>实验一 异或门<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>异或门，英文为Exclusive-OR gate，简称XOR。当两个输入相同时，异或门的输出为0，反之为1。</p>
+<p>下图是异或门符号和真值表，包括逻辑门的3种符号：形状特征型符号（ANSI/IEEE Std 91-1984）、IEC矩形国标符号（IEC 60617-12）和不再使用的DIN符号（DIN 40700）。</p>
+<figure class="align-center">
+<img alt="异或门符号和真值表" src="../_images/XOR_truthtable.png" />
+</figure>
+<p>图 Fig.1 异或门符号和真值表</p>
+<p>本次实验将使用Logisim仿真平台，通过与或非门电路相连实现，实现异或门等功能。最后在Logisim中自行设计搭建满足实验要求的电路，进行仿真测试，检查电路是否符合要求。</p>
+<section id="logisim">
+<h2>Logisim教程<a class="headerlink" href="#logisim" title="Link to this heading"></a></h2>
+<p>Logisim 是用于设计和仿真数字逻辑电路的图形化教学仿真工具。你可以摆放逻辑门电路或者电路模块，连接它们，来设计数字电路并仿真运行。本次实验我们将使用 Logisim 完成实验，后续实验课程将不使用它，但依然鼓励你使用它设计并搭建电路。它以一种直观的方式展现数字电路的设计与功能，方便你熟悉各种电路设计，为学习数字逻辑以及后续的实验课程奠定良好的基础。</p>
+<section id="id2">
+<h3>搭建 Logisim 环境<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>Logisim 一个开源的 (GPL) ，基于 Java 虚拟机运行的软件，需要 Java5 或更高版本，推荐 Java17 版本。它可以运行在Windows、MacOS、Linux上。</p>
+<p>搭建 Logisim 环境可以在 <a class="reference external" href="https://soc.ustc.edu.cn/Digital/2024/lab0/logisim/">这里</a> 参考USTC的搭建教程，里面有配置 Java 环境和下载 Logisim 相关内容。</p>
+<p>你可以在 <a class="reference external" href="https://github.com/logisim-evolution/logisim-evolution/releases">这里</a> 下载 logisim-evolution ，它是 Logisim 的升级版，提供了更丰富的模块。也可以在 <a class="reference external" href="https://github.com/SecondCat/Logisim-Chinese-version/releases/">这里</a> 下载自带 Java 环境的Windows版本 Logisim 。本次实验课不会对 Logisim 的版本有要求，你可以自行选择安装的版本和方式。</p>
+</section>
+<section id="id6">
+<h3>熟悉 Logisim 界面<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../index.html" class="btn btn-neutral float-left" title="深圳理工大学 数字逻辑基础与Verilog设计 实验课程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="TODO.html" class="btn btn-neutral float-right" title="TODO" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, 深圳理工大学。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
