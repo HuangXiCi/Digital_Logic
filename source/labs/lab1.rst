@@ -21,7 +21,7 @@ Logisim 是用于设计和仿真数字逻辑电路的图形化教学仿真工具
 搭建 Logisim 环境
 -----------------------
 
-Logisim 一个开源的 (GPL) ，基于 Java 虚拟机运行的软件，需要 Java5 或更高版本，推荐 Java17 版本。它可以运行在Windows、MacOS、Linux上。
+Logisim 一个开源的 (GPL) ，基于 Java 虚拟机运行的软件，需要 Java5 或更高版本，推荐使用 Java17 版本。它可以运行在Windows、MacOS、Linux上。
 
 搭建 Logisim 环境可以在 `这里 <https://soc.ustc.edu.cn/Digital/2024/lab0/logisim/>`_ 参考USTC的搭建教程，里面有配置 Java 环境和下载 Logisim 相关内容。
 
@@ -30,6 +30,17 @@ Logisim 一个开源的 (GPL) ，基于 Java 虚拟机运行的软件，需要 J
 熟悉 Logisim 界面
 -----------------------
 
+
+
 搭建你的第一个电路
 -----------------------
 
+
+.. raw:: html
+
+    <div class="note-box">
+        <div class="note-box-header">Verilog语句的执行</div>
+        <div class="note-box-content">
+            在Verilog中，各语句是并发执行的，模块中所有的assign语句、always语句块和实例化语句，其执行顺序不分先后。而if语句是顺序执行的语句，其执行过程中必须先判断if后的条件，如果满足条件则执行if后的语句，否则执行else后的语句。Verilog语法规定，顺序执行的语句必须包含在always或initial块中，always块中的语句按照它们中代码中出现的顺序执行。
+        </div>
+    </div>

@@ -9,6 +9,7 @@
   <title>实验一 异或门 &mdash; 深圳理工大学-数字逻辑基础与Verilog设计-实验课程 0.1 文档</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=fe6f9e5c" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -49,6 +50,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#logisim">Logisim教程</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">搭建 Logisim 环境</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id6">熟悉 Logisim 界面</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">搭建你的第一个电路</a></li>
 </ul>
 </li>
 </ul>
@@ -100,13 +102,21 @@
 <p>Logisim 是用于设计和仿真数字逻辑电路的图形化教学仿真工具。你可以摆放逻辑门电路或者电路模块，连接它们，来设计数字电路并仿真运行。本次实验我们将使用 Logisim 完成实验，后续实验课程将不使用它，但依然鼓励你使用它设计并搭建电路。它以一种直观的方式展现数字电路的设计与功能，方便你熟悉各种电路设计，为学习数字逻辑以及后续的实验课程奠定良好的基础。</p>
 <section id="id2">
 <h3>搭建 Logisim 环境<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
-<p>Logisim 一个开源的 (GPL) ，基于 Java 虚拟机运行的软件，需要 Java5 或更高版本，推荐 Java17 版本。它可以运行在Windows、MacOS、Linux上。</p>
+<p>Logisim 一个开源的 (GPL) ，基于 Java 虚拟机运行的软件，需要 Java5 或更高版本，推荐使用 Java17 版本。它可以运行在Windows、MacOS、Linux上。</p>
 <p>搭建 Logisim 环境可以在 <a class="reference external" href="https://soc.ustc.edu.cn/Digital/2024/lab0/logisim/">这里</a> 参考USTC的搭建教程，里面有配置 Java 环境和下载 Logisim 相关内容。</p>
 <p>你可以在 <a class="reference external" href="https://github.com/logisim-evolution/logisim-evolution/releases">这里</a> 下载 logisim-evolution ，它是 Logisim 的升级版，提供了更丰富的模块。也可以在 <a class="reference external" href="https://github.com/SecondCat/Logisim-Chinese-version/releases/">这里</a> 下载自带 Java 环境的Windows版本 Logisim 。本次实验课不会对 Logisim 的版本有要求，你可以自行选择安装的版本和方式。</p>
 </section>
 <section id="id6">
 <h3>熟悉 Logisim 界面<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 </section>
+<section id="id7">
+<h3>搭建你的第一个电路<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="note-box">
+    <div class="note-box-header">Verilog语句的执行</div>
+    <div class="note-box-content">
+        在Verilog中，各语句是并发执行的，模块中所有的assign语句、always语句块和实例化语句，其执行顺序不分先后。而if语句是顺序执行的语句，其执行过程中必须先判断if后的条件，如果满足条件则执行if后的语句，否则执行else后的语句。Verilog语法规定，顺序执行的语句必须包含在always或initial块中，always块中的语句按照它们中代码中出现的顺序执行。
+    </div>
+</div></section>
 </section>
 </section>
 
