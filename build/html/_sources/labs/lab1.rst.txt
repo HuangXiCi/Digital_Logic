@@ -21,14 +21,38 @@ Logisim 是用于设计和仿真数字逻辑电路的图形化教学仿真工具
 搭建 Logisim 环境
 -----------------------
 
-Logisim 一个开源的 (GPL) ，基于 Java 虚拟机运行的软件，需要 Java5 或更高版本，推荐使用 Java17 版本。它可以运行在Windows、MacOS、Linux上。
+Logisim 一个开源的 (GPL) ，基于 Java 虚拟机运行的软件，它可以运行在Windows、MacOS、Linux上。需要 Java5 或更高版本，推荐使用 Java17 版本。
 
 搭建 Logisim 环境可以在 `这里 <https://soc.ustc.edu.cn/Digital/2024/lab0/logisim/>`_ 参考USTC的搭建教程，里面有配置 Java 环境和下载 Logisim 相关内容。
 
-你可以在 `这里 <https://github.com/logisim-evolution/logisim-evolution/releases>`_ 下载 logisim-evolution ，它是 Logisim 的升级版，提供了更丰富的模块。也可以在 `这里 <https://github.com/SecondCat/Logisim-Chinese-version/releases/>`_ 下载自带 Java 环境的Windows版本 Logisim 。本次实验课不会对 Logisim 的版本有要求，你可以自行选择安装的版本和方式。
+本实验推荐你在 `这里 <https://github.com/logisim-evolution/logisim-evolution/releases>`_ 下载 logisim-evolution ，它是 Logisim 的升级版，提供了更丰富的模块组件。并且集成了 Java 环境。
+你还可以在 `这里 <https://github.com/SecondCat/Logisim-Chinese-version/releases/>`_ 下载集成了 Java 环境的Windows版本 Logisim 。
+本实验课内容不会对 Logisim 的版本有要求，你可以自行选择安装的版本和方式。尽管只有实验一要求你使用 logisim 完成实验内容，但鼓励你多使用 logisim ，可以加深你对基础电路的理解和印象。
 
 熟悉 Logisim 界面
 -----------------------
+
+.. figure:: ../picture/lab1/logisim.png
+   :alt: logisim界面
+   :align: center
+
+
+Logisim 界面总体可以分为5个部分：顶部的菜单栏、左上方的资源管理器、左下方的属性栏、画面正中的画布区，以及画布区上方的快捷工具栏。
+
+
+顶部菜单栏可以对工程文件保存、加载，对操作进行撤回，在 ``Window`` 栏可以修改系统语言，查看快捷键等。在 ``Help`` 栏中还有教程，帮助你使用软件。
+
+
+资源管理器用于设计和仿真，在设计栏中对不同的模块进行分类整理，本次实验课我们会使用到 ``Gates`` 门电路 以及 ``Input/Output`` 输入输出 ，对异或门进行设计和仿真。在仿真栏中可以开启或暂停仿真功能。
+
+
+属性栏可以对画布中的或者即将添加的模块修改属性，比如输入位宽，端口朝向等。
+
+
+在选好模块后，鼠标悬停在画布上，使用 ``R`` 键可以旋转模块，点击鼠标左键即可摆放模块。可以直接在模块端口处拖动鼠标连线。
+
+
+快捷工具栏第一个 **手指按钮** 用于仿真操作，第二个 **鼠标按钮** 用于设计操作。
 
 
 
@@ -38,9 +62,207 @@ Logisim 一个开源的 (GPL) ，基于 Java 虚拟机运行的软件，需要 J
 
 .. raw:: html
 
-    <div class="note-box">
-        <div class="note-box-header">Verilog语句的执行</div>
-        <div class="note-box-content">
-            在Verilog中，各语句是并发执行的，模块中所有的assign语句、always语句块和实例化语句，其执行顺序不分先后。而if语句是顺序执行的语句，其执行过程中必须先判断if后的条件，如果满足条件则执行if后的语句，否则执行else后的语句。Verilog语法规定，顺序执行的语句必须包含在always或initial块中，always块中的语句按照它们中代码中出现的顺序执行。
-        </div>
-    </div>
+   <div class="admonition myhint">
+     <p class="admonition-title">若 Logisim UI 崩溃</p>
+     <p>如果你在使用 Logisim 的过程中遇到图形化界面崩溃，有严重的显示问题，影响你使用该软件。
+     在 <a class="reference external" href="https://blog.gitcode.com/ebfa6c46055d4d76975c7cf1912f29da.html">这里</a>
+     有提到这个问题的可能原因，Logisim 会在之后的版本中修复这个问题。不管使用哪个版本的 Logisim ，或者哪个版本的 Java ，
+     都会导致图形化界面崩溃。你遇到这个问题可以在虚拟机中运行 Logisim ，可以避免这个问题。</p>
+   </div>
+
+
+根据图 Fig.1真值表，异或门在 A=0，B=1 或 A=1，B=0 时输出1，否则输出0。则 ``Y = AB' + A'B`` ，则对应的电路图如下
+
+
+.. figure:: ../picture/lab1/xor_circuit1.png
+   :alt: xor_circuit1
+   :align: center
+
+
+搭建好电路之后，还需要输入输出信号，才能控制你的电路，并指明结果。在 **Input/Output** 栏里面有各种各样的输入输出模块。
+**Button** 是一个按键，鼠标点击按下输出1，松手输出0。它没办法像家里面的灯的开关那样，保持状态输出1，因此需要鼠标控制多个输入时，它不是一个好的选择。
+**Dip Switch** 是一个拨码开关，它可以在属性栏配置拨码开关的数量，并且可以保持输出的状态，你可以使用它作为你的输入信号开关。
+
+输出可以选择 **LED** 小灯，输出1小灯亮起，输出0小灯熄灭。这样你就可以通过输入输出去测试你的电路功能了。
+此外还有很多输入输出，比如七段数码管等，在之后的实验会逐步涉及。
+
+
+.. raw:: html
+
+   <div class="admonition myoption">
+      <p class="admonition-title">按键如何按下翻转信号</p>
+      <p>按键的功能是正常输出0，但当用户使用鼠标按下按键时，输出为1。如何搭建电路，能够使得每次按下按键，电路就翻转一次输出结果呢？或许通过上升沿检测、T触发器？</p>
+   </div>
+
+
+搭建完成电路之后，点击左上角仿真栏，确保电路处于仿真状态，鼠标箭头用于编辑电路，使用手指可以改变电路的值。拨动拨码开关，观察LED灯结果，检查电路功能是否正常。
+
+.. figure:: ../picture/lab1/how2simulate.png
+   :alt: how2simulate
+   :align: center
+
+
+
+电路化简
+~~~~~~~~~~~~
+
+通过以下几个电路例子，探索电路化简奥秘。在设计栏的最顶层工程中可以右键新加一个电路画布，或者顶部的菜单栏中的 ``Project`` 中也可以新建电路画布。
+
+
+电路1
+-------------
+
+Y = A + AB
+
+.. figure:: ../picture/lab1/Simplified_circuit1.png
+   :alt: Simplified_circuit1
+   :align: center
+
+在logisim中搭建出该电路，改变输入，观察输出，得到电路真值表，观察真值表，该电路真值表与什么一致？
+
+
+电路2
+-------------
+
+Y = A + A'B
+
+.. figure:: ../picture/lab1/Simplified_circuit2.png
+   :alt: Simplified_circuit2
+   :align: center
+
+
+电路3
+-------------
+
+Y = A' + B'
+
+.. figure:: ../picture/lab1/Simplified_circuit3.png
+   :alt: Simplified_circuit3
+   :align: center
+
+
+电路4
+-------------
+
+Y = A'B'
+
+.. figure:: ../picture/lab1/Simplified_circuit4.png
+   :alt: Simplified_circuit4
+   :align: center
+
+
+化简异或门
+~~~~~~~~~~~~~~~~~~~~
+
+.. figure:: ../picture/lab1/xor_circuit3.png
+   :alt: xor_circuit3
+   :align: center
+
+
+在logisim中搭建出该电路，改变输入，观察输出，得到电路真值表，该电路真值表是否与异或门一致？
+这个电路与之前的异或门电路实现哪个更好呢？为什么？这个电路如何化简得到？
+
+
+.. raw:: html
+
+   <div class="admonition myhint">
+     <p class="admonition-title">从同或门入手试试呢</p>
+     <p>同或门和异或门相比，只是将结果取反即可得到。那么从同或门的真值表得知，当输入都为0或者输入都为1时，输出为1。</p>
+   </div>
+
+
+从电路3和电路4可以发现德·摩根定理， **A'+B' = (AB)'** ， **A'B' = (A+B)'** ，你能不能通过摩根定理通过上面的异或门电路得到下面的异或门电路呢？
+搭建出该电路，测试一下它功能是否正确呢？
+
+.. figure:: ../picture/lab1/xor_circuit2.png
+   :alt: xor_circuit2
+   :align: center
+
+
+不同视角下的异或门
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+接下来我们通过一些实例，了解异或门是如何在我们的电路中扮演各种角色的
+
+
+加法器 Adder
+-------------
+
+从真值表可以发现，异或门可以用于1位二进制数的加法运算，用于计算二进制加法的加和(Sum)位。
+0+0=0，0+1=1，1+0=1，1+1=0。
+在多位二进制数加法中还需要考虑进位(carry)位，
+在下一次实验中便会使用异或门组成半加器和全加器，在此便不过多介绍了。
+
+奇偶校验 Parity Check
+-----------------------------------
+
+对于2输入的异或门，当两个输入不一致时，或者说输入为奇数个1时，输出为1。对于多输入的与门、或门我们很容易理解，多输入与门依然是所有输入为1时，输出为1；而多输入或门只有全输入0，才输出0。
+多输入与门和或门我们可以使用多个2输入的与门和或门组成，多输入异或门同理，可以由多个2输入的异或门组成。
+
+
+.. raw:: html
+
+   <div class="admonition mytodo">
+      <p class="admonition-title">使用2输入异或门搭建4输入异或门</p>
+      <p>尝试使用不同的搭建方式，功能是一样的吗？哪种搭建方式更好呢？多输入异或门的输出是否与输入1的个数是奇偶有关？
+      在logisim中，选择门电路可以更改其属性，比如多少个输入，用你搭建的4输入异或门与logisim的4输入异或门对比一下，功能是否一致呢？</p>
+   </div>
+
+
+既然多输入的异或门输出结果与输入1的个数是奇偶有关，因此可以应用于 **奇偶校验电路** 中。在一个通信系统中，若发送端每发送一组数据，
+可以使用奇偶校验得知数据中1的个数是否为奇数，再加入额外的一位数，使得整体一定是奇数个1或者偶数个1。
+在接收端使用奇偶校验，即可得知接收到的整体是否还是奇数个1或者偶数个1，这样便拥有一定的校验能力，能够在一定程度上判断接收数据的正确性。
+
+
+数值比较 Comparator
+-----------------------------------
+
+对于2输入的异或门，当两个输入不一致时，则输出为1，因此这可以看作1位二进制数的比较。
+如果两个多位二进制数要比较是否相等，则对应的每一位经过2输入异或门，相等的位对应的异或门输出为0，如果每个2输入异或门都输出为0，则这两个多位二进制数相等。
+
+
+.. raw:: html
+
+   <div class="admonition mytodo">
+      <p class="admonition-title">8位二进制数比较器</p>
+      <p>搭建一个8位二进制数比较器，如果两个数相等，则结果输出0，不相同则输出1。你需要使用电路对多个2输入异或门的输出进行判断，如果所有异或门输出都为0，那么说明两个数相等，结果应该输出为0。</p>
+   </div>
+
+
+数值比较是很常见的操作，这里只能判断两个二进制数是否相等，之后的实验还会讲到如何比较二进制数的大小。
+
+
+取反操作
+-----------------------------------
+
+.. figure:: ../picture/lab1/xor_truthtable1.png
+   :alt: xor_truthtable1
+   :align: center
+
+
+观察2输入的异或门的真值表，我们可以认为，当输入A为0时，输出与B一致，当A为1时，输出等于B取反。因此我们可以使用一个信号来控制一个二进制数是否取反。
+
+
+.. raw:: html
+
+   <div class="admonition mytodo">
+      <p class="admonition-title">控制8位二进制数取反操作</p>
+      <p>搭建一个8位二进制数取反控制电路，有一个控制信号，如果控制信号为1，则对8位二进制数进行取反操作，如果控制信号为0，则不进行取反操作，输出这个8位二进制数。</p>
+   </div>
+
+
+按位取反也是很常见的操作，通常用于数值的处理，或者位操作。之后的实验会讲到减法操作是如何转换为加法操作。
+
+
+.. raw:: html
+
+   <div class="admonition myquestion">
+      <p class="admonition-title">RISC-V的按位取反指令</p>
+      <p>RISC-V的基础指令集里面竟然没有按位取反指令？而是用 
+      <code class="docutils literal notranslate"><span class="pre">xori rd, rs1, -1</span></code>
+      指令来代替按位取反操作，你能通过 <strong>STFW</strong> 或者 <strong>RTFM</strong> 明白这条指令的含义吗，-1 的含义又是什么？</p>
+   </div>
+
+
+不要忘记橙色的提示框内容是实验必做内容！logisim 可以保存工程文件到指定目录，这样搭建好的电路就可以重复使用了。
+同时搭建好的电路可以封装成为模块连接使用，在顶部菜单栏的 ``help`` 栏中有详细的教程 ``Tutorial`` 想要了解软件功能或者某个电路模块的功能可以 **RTFM** 。
