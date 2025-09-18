@@ -16,13 +16,6 @@
 
    实验一 异或门 <labs/lab1>
    实验二 Verilog设计与验证 <labs/lab2>
-   实验三 编码器 <labs/TODO>
-   实验四 数据选择器 <labs/TODO>
-   实验五 加法器 <labs/TODO>
-   实验六 加减法器 <labs/TODO>
-   实验七 比较器 <labs/TODO>
-   实验八 寄存器 <labs/TODO>
-
 
 
 课程介绍

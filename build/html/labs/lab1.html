@@ -71,12 +71,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lab2.html">实验二 Verilog设计与验证</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验三 编码器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验四 数据选择器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验五 加法器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验六 加减法器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验七 比较器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="TODO.html">实验八 寄存器</a></li>
 </ul>
 
         </div>
@@ -224,10 +218,25 @@
 <h3>奇偶校验 Parity Check<a class="headerlink" href="#parity-check" title="Link to this heading"></a></h3>
 <p>对于2输入的异或门，当两个输入不一致时，或者说输入为奇数个1时，输出为1。对于多输入的与门、或门我们很容易理解，多输入与门依然是所有输入为1时，输出为1；而多输入或门只有全输入0，才输出0。
 多输入与门和或门我们可以使用多个2输入的与门和或门组成，多输入异或门同理，可以由多个2输入的异或门组成。</p>
+<div class="admonition myhint">
+  <p class="admonition-title">模块化设计</p>
+  <p>在高级语言中，如果有一段代码会在很多地方使用，可以将这段代码变成一个函数，方便在各个地方调用它，这样可以缩减代码和程序的体积。
+  在电路设计中，我们也可以把设计好的一块电路作为一个模块，方便我们在各个电路中<strong>实例化</strong>它，提高我们对电路的理解和掌控。</p>
+  <p>如果我在一个画布内绘制了10000个门电路，还容易理解、修改、测试电路吗？如果是10个电路模块呢，我们可以通过模块名字、注释信息等了解模块，
+  方便我们理解其设计，修改电路，定位问题。就像是高级语言中，很少有一个函数写几千行代码的。</p>
+</div><p>在 logisim 中，我们可以将电路封装成模块，方便我们在其他电路中像使用门电路那样直接 <strong>实例化</strong> 该模块，我们需要将电路的输入输出端口标明，
+方便你实例化模块时将端口相连。在 <code class="docutils literal notranslate"><span class="pre">设计栏</span></code> 的 <code class="docutils literal notranslate"><span class="pre">Wiring</span></code> 中，使用 <code class="docutils literal notranslate"><span class="pre">Pin</span></code> 声明端口，在属性栏中，可以选择是否为输出端口，否则为输入端口。
+此外还可以定义端口的位宽、是否为三态等。如下图所示，将输入输出端口与电路相连，然后你就可以在别的电路中 <strong>实例化</strong> 该模块了。</p>
+<figure class="align-center">
+<img alt="module" src="../_images/module.png" />
+</figure>
 <div class="admonition mytodo">
    <p class="admonition-title">使用2输入异或门搭建4输入异或门</p>
-   <p>尝试使用不同的搭建方式，功能是一样的吗？哪种搭建方式更好呢？多输入异或门的输出是否与输入1的个数是奇偶有关？
-   在logisim中，选择门电路可以更改其属性，比如多少个输入，用你搭建的4输入异或门与logisim的4输入异或门对比一下，功能是否一致呢？</p>
+   <p>4输入的与门功能与2输入的与门相同，当4个输入全为1时，输入为1，否则为0，如何使用2输入的与门搭建4输入的与门？
+   按照这个方法使用2输入的异或门搭建出4输入的异或门。</p>
+   <p>尝试使用不同的搭建方式，功能都是一样的吗？
+   哪种搭建方式更好呢？多输入异或门的输出是否与输入1的个数是奇偶有关？为什么呢？
+   在logisim中，选择门电路可以更改其属性，比如多少个输入，用你搭建的4输入异或门与logisim的4输入异或门对比一下，功能是否一致？</p>
 </div><p>既然多输入的异或门输出结果与输入1的个数是奇偶有关，因此可以应用于 <strong>奇偶校验电路</strong> 中。在一个通信系统中，若发送端每发送一组数据，
 可以使用奇偶校验得知数据中1的个数是否为奇数，再加入额外的一位数，使得整体一定是奇数个1或者偶数个1。
 在接收端使用奇偶校验，即可得知接收到的整体是否还是奇数个1或者偶数个1，这样便拥有一定的校验能力，能够在一定程度上判断接收数据的正确性。</p>
@@ -239,7 +248,7 @@
 <div class="admonition mytodo">
    <p class="admonition-title">8位二进制数比较器</p>
    <p>搭建一个8位二进制数比较器，如果两个数相等，则结果输出0，不相同则输出1。你需要使用电路对多个2输入异或门的输出进行判断，如果所有异或门输出都为0，那么说明两个数相等，结果应该输出为0。</p>
-</div><p>数值比较是很常见的操作，这里只能判断两个二进制数是否相等，之后的实验还会讲到如何比较二进制数的大小。</p>
+</div><p>数值比较是很常见的操作，这里只能判断两个二进制数是否相等，之后的实验中还会讲到如何比较二进制数的大小。</p>
 </section>
 <section id="id15">
 <h3>取反操作<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
@@ -255,8 +264,12 @@
    <p class="admonition-title">RISC-V的按位取反指令</p>
    <p>RISC-V的基础指令集里面竟然没有按位取反指令？而是用
    <code class="docutils literal notranslate"><span class="pre">xori rd, rs1, -1</span></code>
-   指令来代替按位取反操作，你能通过 <strong>STFW</strong> 或者 <strong>RTFM</strong> 明白这条指令的含义吗，-1 的含义又是什么？</p>
-</div><p>不要忘记橙色的提示框内容是实验必做内容！logisim 可以保存工程文件到指定目录，这样搭建好的电路就可以重复使用了。
+   指令来代替按位取反操作，你能通过 <strong>STFW</strong> 或者 <strong>RTFM</strong> 明白这条指令的含义吗，-1 的具体含义又是什么？</p>
+   <p>查阅一下LoongArch32r为什么不能使用像<span class="pre">xori rd, rs1, -1</span></code>这条指令这样实现按位取反，是什么地方与RISC-V规定不一致？又是如何实现按位取反呢？</p>
+</div><div class="admonition mycaution">
+   <p class="admonition-title">再次提醒</p>
+   <p>不要忘记橙色的提示框内容是实验必做内容！需要提交到实验报告的内容！</p>
+</div><p>logisim 可以保存工程文件到指定目录，这样搭建好的电路就可以重复使用了。
 同时搭建好的电路可以封装成为模块连接使用，在顶部菜单栏的 <code class="docutils literal notranslate"><span class="pre">help</span></code> 栏中有详细的教程 <code class="docutils literal notranslate"><span class="pre">Tutorial</span></code> 想要了解软件功能或者某个电路模块的功能可以 <strong>RTFM</strong> 。</p>
 </section>
 </section>
