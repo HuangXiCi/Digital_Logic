@@ -40,6 +40,7 @@ templates_path = ['_templates']
 # Usually you set "language" from the command line for these cases.
 
 language = 'zh_CN'
+html_search_language = 'zh'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

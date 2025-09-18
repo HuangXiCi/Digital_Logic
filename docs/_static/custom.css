@@ -1,3 +1,8 @@
+/* modify the max display width */
+.wy-nav-content {
+    max-width: 3840px;
+}
+
 /* override the logo for admonition */
 .rst-content .admonition.myoption > .admonition-title:before,
 .rst-content .admonition.mytodo > .admonition-title:before {
