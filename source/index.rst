@@ -15,7 +15,6 @@
    :hidden:
 
    实验一 异或门 <labs/lab1>
-   实验二 Verilog设计与验证 <labs/lab2>
 
 
 课程介绍
