@@ -21,7 +21,6 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
-    <link rel="next" title="实验二 Verilog设计与仿真" href="lab2.html" />
     <link rel="prev" title="深圳理工大学 数字逻辑基础与Verilog设计 实验课程" href="../index.html" /> 
 </head>
 
@@ -47,30 +46,29 @@
               <p class="caption" role="heading"><span class="caption-text">实验课程目录</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">实验一 异或门</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#logisim">Logisim教程</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#logisim">Logisim安装与教程</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">搭建 Logisim 环境</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">熟悉 Logisim 界面</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">搭建你的第一个电路</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">熟悉 Logisim 界面</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">电路化简</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id9">电路1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">电路2</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">电路3</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">电路4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">搭建你的第一个电路</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">电路化简</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">电路1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">电路2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">电路3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">电路4</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id13">化简异或门</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id14">不同视角下的异或门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id11">化简异或门</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">不同视角下的异或门</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#adder">加法器 Adder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#parity-check">奇偶校验 Parity Check</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#comparator">数值比较 Comparator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">取反操作</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">取反操作</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="lab2.html">实验二 Verilog设计与验证</a></li>
 </ul>
 
         </div>
@@ -107,18 +105,18 @@
 <p>图 Fig.1 异或门符号和真值表</p>
 <p>本次实验将使用Logisim仿真平台，通过与或非门电路相连实现，实现异或门等功能。最后在Logisim中自行设计搭建满足实验要求的电路，进行仿真测试，检查电路是否符合要求。</p>
 <section id="logisim">
-<h2>Logisim教程<a class="headerlink" href="#logisim" title="Link to this heading"></a></h2>
+<h2>Logisim安装与教程<a class="headerlink" href="#logisim" title="Link to this heading"></a></h2>
 <p>Logisim 是用于设计和仿真数字逻辑电路的图形化教学仿真工具。你可以摆放逻辑门电路或者电路模块，连接它们，来设计数字电路并仿真运行。本次实验我们将使用 Logisim 完成实验，后续实验课程将不使用它，但依然鼓励你使用它设计并搭建电路。它以一种直观的方式展现数字电路的设计与功能，方便你熟悉各种电路设计，为学习数字逻辑以及后续的实验课程奠定良好的基础。</p>
 <section id="id2">
 <h3>搭建 Logisim 环境<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
-<p>Logisim 一个开源的 (GPL) ，基于 Java 虚拟机运行的软件，它可以运行在Windows、MacOS、Linux上。需要 Java5 或更高版本，推荐使用 Java17 版本。</p>
-<p>搭建 Logisim 环境可以在 <a class="reference external" href="https://soc.ustc.edu.cn/Digital/2024/lab0/logisim/">这里</a> 参考USTC的搭建教程，里面有配置 Java 环境和下载 Logisim 相关内容。</p>
-<p>本实验推荐你在 <a class="reference external" href="https://github.com/logisim-evolution/logisim-evolution/releases">这里</a> 下载 logisim-evolution ，它是 Logisim 的升级版，提供了更丰富的模块组件。并且集成了 Java 环境。
-你还可以在 <a class="reference external" href="https://github.com/SecondCat/Logisim-Chinese-version/releases/">这里</a> 下载集成了 Java 环境的Windows版本 Logisim 。
-本实验课内容不会对 Logisim 的版本有要求，你可以自行选择安装的版本和方式。尽管只有实验一要求你使用 logisim 完成实验内容，但鼓励你多使用 logisim ，可以加深你对基础电路的理解和印象。</p>
+<p>Logisim 一个开源的 (GPL) ，基于 Java 虚拟机运行的软件，它可以运行在Windows、macOS、Linux上。</p>
+<p>本实验推荐你在 <a class="reference external" href="https://github.com/logisim-evolution/logisim-evolution/releases">这里</a> 下载 logisim-evolution ，它是 Logisim 的升级版，提供了更丰富的模块组件，并且集成了 Java 环境。
+目前已经更新了 logisim-evolution 4.0.0 版本，打开链接有很多种后缀名的安装包： <code class="docutils literal notranslate"><span class="pre">.msi</span></code> 是 Windows 系统的安装文件， <code class="docutils literal notranslate"><span class="pre">.dmg</span></code> 是 macOS 系统的安装文件, <code class="docutils literal notranslate"><span class="pre">.deb</span></code> 是 debian 及其分支系统的安装文件， <code class="docutils literal notranslate"><span class="pre">.rpm</span></code> 是 Red Hat 及其分支系统的安装文件。
+后缀名前面代表硬件架构， <code class="docutils literal notranslate"><span class="pre">aarch64</span></code> 代表64位 ARM 架构， <code class="docutils literal notranslate"><span class="pre">amd64</span></code> 和 <code class="docutils literal notranslate"><span class="pre">x86_64</span></code> 都代表64位 X86 架构。掌握了命名规则，请选择适合你电脑的安装包，如果确实没有符合你电脑的安装包，也可以下载源码进行编译安装。
+本实验的内容不会对 Logisim 的版本有要求，你也可以自行选择安装的版本和方式。虽然只有实验一要求你使用 logisim 完成实验内容，但鼓励你多使用 Logisim ，可以加深你对基础电路的理解和印象。</p>
 </section>
-<section id="id6">
-<h3>熟悉 Logisim 界面<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<section id="id4">
+<h3>熟悉 Logisim 界面<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <figure class="align-center">
 <img alt="logisim界面" src="../_images/logisim.png" />
 </figure>
@@ -129,21 +127,23 @@
 <p>在选好模块后，鼠标悬停在画布上，使用 <code class="docutils literal notranslate"><span class="pre">R</span></code> 键可以旋转模块，点击鼠标左键即可摆放模块。可以直接在模块端口处拖动鼠标连线。</p>
 <p>快捷工具栏第一个 <strong>手指按钮</strong> 用于仿真操作，第二个 <strong>鼠标按钮</strong> 用于设计操作。</p>
 </section>
-<section id="id7">
-<h3>搭建你的第一个电路<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+</section>
+<section id="id5">
+<h2>搭建你的第一个电路<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <div class="admonition myhint">
   <p class="admonition-title">若 Logisim UI 崩溃</p>
-  <p>如果你在使用 Logisim 的过程中遇到图形化界面崩溃，有严重的显示问题，影响你使用该软件。
+  <p>如果你在使用 Logisim 的过程中遇到图形化界面崩溃，有严重的显示问题，影响使用该软件。
   在 <a class="reference external" href="https://blog.gitcode.com/ebfa6c46055d4d76975c7cf1912f29da.html">这里</a>
-  有提到这个问题的可能原因，Logisim 会在之后的版本中修复这个问题。不管使用哪个版本的 Logisim ，或者哪个版本的 Java ，
-  都会导致图形化界面崩溃。你遇到这个问题可以在虚拟机中运行 Logisim ，可以避免这个问题。</p>
+  提到这个问题的可能原因，Logisim 会在之后的版本中修复这个问题。不管使用哪个版本的 Logisim ，或者哪个版本的 Java ，
+  都会导致图形化界面崩溃。我使用 Nvidia 30系显卡时遇到这个问题，如今更换显卡后问题消失了。
+  4.0.0版本更新似乎并没有提到修复了该问题，如果你遇到这个问题可以在虚拟机中运行 Logisim ，可以避免这个问题。</p>
 </div><p>根据图 Fig.1真值表，异或门在 A=0，B=1 或 A=1，B=0 时输出1，否则输出0。则 <code class="docutils literal notranslate"><span class="pre">Y</span> <span class="pre">=</span> <span class="pre">AB'</span> <span class="pre">+</span> <span class="pre">A'B</span></code> ，则对应的电路图如下</p>
 <figure class="align-center">
 <img alt="xor_circuit1" src="../_images/xor_circuit1.png" />
 </figure>
 <p>搭建好电路之后，还需要输入输出信号，才能控制你的电路，并指明结果。在 <strong>Input/Output</strong> 栏里面有各种各样的输入输出模块。
 <strong>Button</strong> 是一个按键，鼠标点击按下输出1，松手输出0。它没办法像家里面的灯的开关那样，保持状态输出1，因此需要鼠标控制多个输入时，它不是一个好的选择。
-<strong>Dip Switch</strong> 是一个拨码开关，它可以在属性栏配置拨码开关的数量，并且可以保持输出的状态，你可以使用它作为你的输入信号开关。</p>
+<strong>Dip Switch</strong> 是一个拨码开关，它可以在属性栏配置拨码开关的数量，并且可以保持输出的状态，你也可以使用它作为你的输入信号开关。</p>
 <p>输出可以选择 <strong>LED</strong> 小灯，输出1小灯亮起，输出0小灯熄灭。这样你就可以通过输入输出去测试你的电路功能了。
 此外还有很多输入输出，比如七段数码管等，在之后的实验会逐步涉及。</p>
 <div class="admonition myoption">
@@ -154,42 +154,41 @@
 <img alt="how2simulate" src="../_images/how2simulate.png" />
 </figure>
 </section>
-</section>
-<section id="id8">
-<h2>电路化简<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>电路化简<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <p>通过以下几个电路例子，探索电路化简奥秘。在设计栏的最顶层工程中可以右键新加一个电路画布，或者顶部的菜单栏中的 <code class="docutils literal notranslate"><span class="pre">Project</span></code> 中也可以新建电路画布。</p>
-<section id="id9">
-<h3>电路1<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<section id="id7">
+<h3>电路1<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <p>Y = A + AB</p>
 <figure class="align-center">
 <img alt="Simplified_circuit1" src="../_images/Simplified_circuit1.png" />
 </figure>
 <p>在logisim中搭建出该电路，改变输入，观察输出，得到电路真值表，观察真值表，该电路真值表与什么一致？</p>
 </section>
-<section id="id10">
-<h3>电路2<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<section id="id8">
+<h3>电路2<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <p>Y = A + A'B</p>
 <figure class="align-center">
 <img alt="Simplified_circuit2" src="../_images/Simplified_circuit2.png" />
 </figure>
 </section>
-<section id="id11">
-<h3>电路3<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<section id="id9">
+<h3>电路3<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
 <p>Y = A' + B'</p>
 <figure class="align-center">
 <img alt="Simplified_circuit3" src="../_images/Simplified_circuit3.png" />
 </figure>
 </section>
-<section id="id12">
-<h3>电路4<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<section id="id10">
+<h3>电路4<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
 <p>Y = A'B'</p>
 <figure class="align-center">
 <img alt="Simplified_circuit4" src="../_images/Simplified_circuit4.png" />
 </figure>
 </section>
 </section>
-<section id="id13">
-<h2>化简异或门<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id11">
+<h2>化简异或门<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
 <figure class="align-center">
 <img alt="xor_circuit3" src="../_images/xor_circuit3.png" />
 </figure>
@@ -204,8 +203,8 @@
 <img alt="xor_circuit2" src="../_images/xor_circuit2.png" />
 </figure>
 </section>
-<section id="id14">
-<h2>不同视角下的异或门<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<section id="id12">
+<h2>不同视角下的异或门<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
 <p>接下来我们通过一些实例，了解异或门是如何在我们的电路中扮演各种角色的</p>
 <section id="adder">
 <h3>加法器 Adder<a class="headerlink" href="#adder" title="Link to this heading"></a></h3>
@@ -250,8 +249,8 @@
    <p>搭建一个8位二进制数比较器，如果两个数相等，则结果输出0，不相同则输出1。你需要使用电路对多个2输入异或门的输出进行判断，如果所有异或门输出都为0，那么说明两个数相等，结果应该输出为0。</p>
 </div><p>数值比较是很常见的操作，这里只能判断两个二进制数是否相等，之后的实验中还会讲到如何比较二进制数的大小。</p>
 </section>
-<section id="id15">
-<h3>取反操作<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<section id="id13">
+<h3>取反操作<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
 <figure class="align-center">
 <img alt="xor_truthtable1" src="../_images/xor_truthtable1.png" />
 </figure>
@@ -280,7 +279,6 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
         <a href="../index.html" class="btn btn-neutral float-left" title="深圳理工大学 数字逻辑基础与Verilog设计 实验课程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="lab2.html" class="btn btn-neutral float-right" title="实验二 Verilog设计与仿真" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
