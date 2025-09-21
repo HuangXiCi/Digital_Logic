@@ -51,7 +51,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#id4">熟悉 Logisim 界面</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">搭建你的第一个电路</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">搭建异或门电路</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id6">电路化简</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id7">电路1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id8">电路2</a></li>
@@ -124,12 +124,14 @@
 <p>顶部菜单栏可以对工程文件保存、加载，对操作进行撤回，在 <code class="docutils literal notranslate"><span class="pre">Window</span></code> 栏可以修改系统语言，查看快捷键等。在 <code class="docutils literal notranslate"><span class="pre">Help</span></code> 栏中还有教程，帮助你使用软件。</p>
 <p>资源管理器用于设计和仿真，在设计栏中对不同的模块进行分类整理，本次实验课我们会使用到 <code class="docutils literal notranslate"><span class="pre">Gates</span></code> 门电路 以及 <code class="docutils literal notranslate"><span class="pre">Input/Output</span></code> 输入输出 ，对异或门进行设计和仿真。在仿真栏中可以开启或暂停仿真功能。</p>
 <p>属性栏可以对画布中的或者即将添加的模块修改属性，比如输入位宽，端口朝向等。</p>
-<p>在选好模块后，鼠标悬停在画布上，使用 <code class="docutils literal notranslate"><span class="pre">R</span></code> 键可以旋转模块，点击鼠标左键即可摆放模块。可以直接在模块端口处拖动鼠标连线。</p>
-<p>快捷工具栏第一个 <strong>手指按钮</strong> 用于仿真操作，第二个 <strong>鼠标按钮</strong> 用于设计操作。</p>
+<p>画布可以进行缩放，在左下角的加减按钮可以对画布放大缩小， <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">鼠标滚轮</span></code> 也可以缩放画布。</p>
+<figure class="align-center">
+<img alt="zoom_bar" src="../_images/zoom_bar.png" />
+</figure>
 </section>
 </section>
 <section id="id5">
-<h2>搭建你的第一个电路<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h2>搭建异或门电路<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <div class="admonition myhint">
   <p class="admonition-title">若 Logisim UI 崩溃</p>
   <p>如果你在使用 Logisim 的过程中遇到图形化界面崩溃，有严重的显示问题，影响使用该软件。
@@ -141,14 +143,21 @@
 <figure class="align-center">
 <img alt="xor_circuit1" src="../_images/xor_circuit1.png" />
 </figure>
-<p>搭建好电路之后，还需要输入输出信号，才能控制你的电路，并指明结果。在 <strong>Input/Output</strong> 栏里面有各种各样的输入输出模块。
-<strong>Button</strong> 是一个按键，鼠标点击按下输出1，松手输出0。它没办法像家里面的灯的开关那样，保持状态输出1，因此需要鼠标控制多个输入时，它不是一个好的选择。
+<p>在选好模块后，鼠标悬停在画布上，使用 <code class="docutils literal notranslate"><span class="pre">R</span></code> 键可以旋转模块，点击鼠标左键即可摆放模块。可以直接在模块端口处拖动鼠标连线。按照上图搭建好异或门电路。</p>
+<p>搭建好电路之后，还需要输入输出信号，才能控制你的电路，并输出结果。</p>
+<figure class="align-center">
+<img alt="quick_bar" src="../_images/quick_bar.png" />
+</figure>
+<p>在画布左上角有一排 <code class="docutils literal notranslate"><span class="pre">快捷工具栏</span></code> ，其中圈出的两个按钮是输入输出引脚，可以用于模块化的输入输出引脚，同时也可以改变输入引脚的值，用于仿真测试。</p>
+<p>在 <strong>Input/Output</strong> 栏里面还有各种各样的输入输出模块。
+<strong>Button</strong> 是一个按键，鼠标点击按下输出1，松手输出0。它没办法像家里面的灯的开关那样，保持状态输出1，因此需要鼠标控制多个输入时，它不是一个好的选择。但是在某些场景非常合适。
 <strong>Dip Switch</strong> 是一个拨码开关，它可以在属性栏配置拨码开关的数量，并且可以保持输出的状态，你也可以使用它作为你的输入信号开关。</p>
-<p>输出可以选择 <strong>LED</strong> 小灯，输出1小灯亮起，输出0小灯熄灭。这样你就可以通过输入输出去测试你的电路功能了。
-此外还有很多输入输出，比如七段数码管等，在之后的实验会逐步涉及。</p>
-<div class="admonition myoption">
-   <p class="admonition-title">按键如何按下翻转信号</p>
-   <p>按键的功能是正常输出0，但当用户使用鼠标按下按键时，输出为1。如何搭建电路，能够使得每次按下按键，电路就翻转一次输出结果呢？或许通过上升沿检测、T触发器？</p>
+<p>输出也可以选择 <strong>LED</strong> 小灯，输出1小灯亮起，输出0小灯熄灭。此外还有很多输入输出，比如七段数码管等，在之后的实验也会逐步接触。</p>
+<p><code class="docutils literal notranslate"><span class="pre">快捷工具栏</span></code> 第一个 <code class="docutils literal notranslate"><span class="pre">手指按钮</span></code> 用于仿真操作，可以改变输入的值，操作电路；第二个 <code class="docutils literal notranslate"><span class="pre">鼠标按钮</span></code> 用于设计操作，可以编辑设计电路。</p>
+<div class="admonition myquestion">
+   <p class="admonition-title">生活中的开关按键</p>
+   <p>按键的功能是正常输出0，当用户使用鼠标按下按键时，输出为1，松开鼠标后输出为0。拨码开关是往上拨动输出为1，往下拨动输出为0。
+   你可以查阅并举一些实例，并说明生活中常见的开关与他们的功能相同吗？</p>
 </div><p>搭建完成电路之后，点击左上角仿真栏，确保电路处于仿真状态，鼠标箭头用于编辑电路，使用手指可以改变电路的值。拨动拨码开关，观察LED灯结果，检查电路功能是否正常。</p>
 <figure class="align-center">
 <img alt="how2simulate" src="../_images/how2simulate.png" />
