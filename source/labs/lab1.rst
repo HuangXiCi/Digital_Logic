@@ -93,10 +93,10 @@ Logisim 界面总体可以分为5个部分：顶部的菜单栏、左上方的�
 
 .. raw:: html
 
-   <div class="admonition myoption">
+   <div class="admonition mytodo">
       <p class="admonition-title">德·摩根定律</p>
-      <p>你知道摩根定律吗？可以 STFW ，理解摩根定律，并使用第二幅电路图，通过摩根定律转换该电路，使用3个与或非门组成异或门。
-      如果完成了该选做内容，将搭建完成的电路图截图保存，并放在实验报告中。</p>
+      <p>通过德·摩根定律转换第二个电路图，使用3个与或非门组成异或门，与或非门包括与非、或非门。
+      <strong>请将搭建完成的电路图截图保存，并放在实验报告中。</strong></p>
    </div>
 
 
@@ -255,7 +255,9 @@ Logisim 界面总体可以分为5个部分：顶部的菜单栏、左上方的�
 
    <div class="admonition mycaution">
       <p class="admonition-title">再次提醒</p>
-      <p>不要忘记橙色的提示框内容是实验必做内容！需要写到实验报告中提交的内容！</p>
+      <p>不要忘记橙色的提示框内容是实验必做内容！需要写到实验报告中提交的内容！
+      实验报告模板在<a class="reference external" href="https://gitee.com/cocoa_gitee/course_-fcma201_25-fall">Course_FCMA201_25Fall</a>中，
+      如果你的本地仓库中没有实验报告模板，请使用 git pull 更新本地仓库。</p>
    </div>
 
 
