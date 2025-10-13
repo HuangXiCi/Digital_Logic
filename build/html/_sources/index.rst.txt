@@ -15,6 +15,7 @@
    :hidden:
 
    实验一 异或门 <labs/lab1>
+   番外一 EDA发展史 <extra/extra1>
 
 
 课程介绍
