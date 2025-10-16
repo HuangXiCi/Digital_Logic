@@ -1,6 +1,28 @@
-/* modify the max display width */
+/* 主要内容区域居中显示，两侧留白 */
 .wy-nav-content {
-    max-width: 3840px;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 2rem !important;
+}
+
+/* 确保导航栏正常显示 */
+.wy-nav-side {
+    position: fixed;
+    width: 300px;
+}
+
+.wy-nav-content-wrap {
+    margin-left: 300px;
+}
+
+/* 响应式设计：小屏幕设备适配 */
+@media (max-width: 768px) {
+    .wy-nav-content-wrap {
+        margin-left: 0;
+    }
+    .wy-nav-content {
+        padding: 0 1rem !important;
+    }
 }
 
 /* override the logo for admonition */

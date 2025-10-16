@@ -15,6 +15,7 @@
    :hidden:
 
    实验一 异或门 <labs/lab1>
+   实验二 Verilog设计与仿真 <labs/lab2>
    番外一 EDA发展史 <extra/extra1>
 
 
