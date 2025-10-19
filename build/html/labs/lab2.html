@@ -52,8 +52,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#adder">创建 adder 工程</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">优雅的 Verilog 代码编写</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Verilog 代码编写</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#vs-code-verilog-hdl-systemverilog-bluespec-systemverilog-ctags">VS Code + Verilog-HDL/SystemVerilog/Bluespec SystemVerilog + ctags 插件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ripple-carry-adder">Ripple-carry Adder 行波进位加法器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#testbench">第一个 Testbench 程序</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Vivado 功能仿真验证</a></li>
 </ul>
 </li>
 </ul>
@@ -98,8 +101,8 @@
 <h2>Vivado 教程<a class="headerlink" href="#vivado" title="Link to this heading"></a></h2>
 <p>Vivado 是 Xilinx 公司的 FPGA 集成设计环境，本次实验我们将使用 Vivado 对 Verilog 设计进行仿真。
 我们推荐使用 Vivado 2018.3 ，安装 WebPACK 版本。
-该版本安装体积约 20 GB，而近几年的版本安装体积已经约 100 GB，WebPACK 是免费的，不需要许可证的版本，并且对于我们的实验需求已经能够满足。
-如果你此前已经安装其余 2015 年之后的版本，都是能够满足完成实验的。Vivado 不同的版本之间功能差异也比较小，在学习和使用上也不会造成困难。</p>
+该版本安装体积约 20 GB，而近几年的版本安装体积已经约 100 GB，WebPACK 是免费的，不需要许可证的版本，并且已经能够满足我们的实验需求。
+如果你此前已经安装 2015 年之后的版本，都是能够满足完成实验的。Vivado 不同的版本之间功能差异也比较小，在学习和使用上也不会造成困难。</p>
 <section id="adder">
 <h3>创建 adder 工程<a class="headerlink" href="#adder" title="Link to this heading"></a></h3>
 <p>打开 Vivado 软件，会来到 Vivado 软件初始界面</p>
@@ -126,7 +129,7 @@
 </section>
 </section>
 <section id="id1">
-<h2>优雅的 Verilog 代码编写<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>Verilog 代码编写<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 <p>工欲善其事，必先利其器。
 一个好的代码 Coding 环境能极大的帮助你编写代码。</p>
 <section id="vs-code-verilog-hdl-systemverilog-bluespec-systemverilog-ctags">
@@ -138,6 +141,83 @@
 语言提供基础的高亮和语法框架支持，还可以提供 <code class="docutils literal notranslate"><span class="pre">动态语法检查</span></code> 、鼠标悬停查看信号定义、跳转信号和模块等功能。相信对经常写代码的你们
 来说，这些功能不会陌生。你们可以在 <a class="reference external" href="https://dphweb.cn/index.php/2023/08/22/verilog-hdl%e6%8f%92%e4%bb%b6%e9%85%8d%e7%bd%ae%e6%95%99%e7%a8%8b/">这里</a> 学习
 配置教程，并不复杂。</p>
+</section>
+<section id="ripple-carry-adder">
+<h3>Ripple-carry Adder 行波进位加法器<a class="headerlink" href="#ripple-carry-adder" title="Link to this heading"></a></h3>
+<p>行波进位加法器是最基本的数字电路加法器实现，它通过串联多个全加器来实现多位二进制数的加法操作。
+这里我们给出一种 Full Adder 全加器的 Verilog 实现方式参考:</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">Full Adder 全加器的 Verilog 实现方式参考</span><a class="headerlink" href="#id4" title="Link to this code"></a></div>
+<div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">module</span><span class="w"> </span><span class="n">ref_fa</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="n">a</span><span class="w">       </span><span class="c1">// &lt;&lt;i&lt;&lt;</span>
+<span class="linenos"> 3</span><span class="w">   </span><span class="p">,</span><span class="n">b</span><span class="w">       </span><span class="c1">// &lt;&lt;i&lt;&lt;</span>
+<span class="linenos"> 4</span><span class="w">   </span><span class="p">,</span><span class="n">cin</span><span class="w">     </span><span class="c1">// &lt;&lt;i&lt;&lt;</span>
+<span class="linenos"> 5</span><span class="w">   </span><span class="p">,</span><span class="n">sum</span><span class="w">     </span><span class="c1">// &gt;&gt;o&gt;&gt;</span>
+<span class="linenos"> 6</span><span class="w">   </span><span class="p">,</span><span class="n">cout</span><span class="w">    </span><span class="c1">// &gt;&gt;o&gt;&gt;</span>
+<span class="linenos"> 7</span><span class="p">);</span>
+<span class="linenos"> 8</span><span class="w">   </span><span class="k">input</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">cin</span><span class="p">;</span>
+<span class="linenos"> 9</span><span class="w">   </span><span class="k">output</span><span class="w"> </span><span class="n">sum</span><span class="p">,</span><span class="w"> </span><span class="n">cout</span><span class="p">;</span>
+<span class="linenos">10</span><span class="w">   </span><span class="kt">wire</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">cin</span><span class="p">;</span>
+<span class="linenos">11</span><span class="w">   </span><span class="kt">wire</span><span class="w"> </span><span class="n">sum</span><span class="p">,</span><span class="w"> </span><span class="n">cout</span><span class="p">;</span>
+<span class="hll"><span class="linenos">12</span><span class="w">   </span><span class="k">assign</span><span class="w"> </span><span class="p">{</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cin</span><span class="p">;</span>
+</span><span class="linenos">13</span><span class="k">endmodule</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition mytodo">
+   <p class="admonition-title">全加器</p >
+   <p>按照门电路的方式用 Verilog 描述全加器电路，即不使用 + 运算符。
+   完成编写 fa.v 文件， module 名字为 fa ，与文件名保持一致，
+   端口名也可与参考代码一致。</p >
+</div></section>
+<section id="testbench">
+<h3>第一个 Testbench 程序<a class="headerlink" href="#testbench" title="Link to this heading"></a></h3>
+<p>Verilog 代码设计完成后，还需要进行重要的步骤，即逻辑功能仿真，仿真激励文件称之为 testbench，
+就像你之前使用 Logisim 设计完电路之后，需要你输入信号，观察输出，检查你的电路设计功能是否符合你的要求。</p>
+<p>我们从一个全加器的简单 Testbench 入手，编写你自己的第一个 Testbench 程序。</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">一个全加器的简单 Testbench</span><a class="headerlink" href="#id5" title="Link to this code"></a></div>
+<div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos"> 1</span><span class="no">`timescale</span><span class="w"> </span><span class="mh">1</span><span class="n">ns</span><span class="o">/</span><span class="mh">1</span><span class="n">ps</span>
+</span><span class="linenos"> 2</span><span class="k">module</span><span class="w"> </span><span class="n">ref_tb</span><span class="w"> </span><span class="p">();</span>
+<span class="linenos"> 3</span><span class="w">   </span><span class="kt">reg</span><span class="w"> </span><span class="p">[</span><span class="mh">2</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">in</span><span class="p">;</span>
+<span class="linenos"> 4</span><span class="w">   </span><span class="kt">wire</span><span class="w"> </span><span class="n">sum</span><span class="p">,</span><span class="w"> </span><span class="n">cout</span><span class="p">;</span>
+<span class="linenos"> 5</span>
+<span class="hll"><span class="linenos"> 6</span><span class="w">   </span><span class="n">ref_fa</span><span class="w"> </span><span class="n">u_ref_fa</span><span class="w"> </span><span class="p">(</span>
+</span><span class="hll"><span class="linenos"> 7</span><span class="w">       </span><span class="p">.</span><span class="n">a</span><span class="w">       </span><span class="p">(</span><span class="n">in</span><span class="p">[</span><span class="mh">0</span><span class="p">])</span><span class="w"> </span><span class="c1">// &lt;&lt;i&lt;&lt;</span>
+</span><span class="hll"><span class="linenos"> 8</span><span class="w">      </span><span class="p">,.</span><span class="n">b</span><span class="w">       </span><span class="p">(</span><span class="n">in</span><span class="p">[</span><span class="mh">1</span><span class="p">])</span><span class="w"> </span><span class="c1">// &lt;&lt;i&lt;&lt;</span>
+</span><span class="hll"><span class="linenos"> 9</span><span class="w">      </span><span class="p">,.</span><span class="n">cin</span><span class="w">     </span><span class="p">(</span><span class="n">in</span><span class="p">[</span><span class="mh">2</span><span class="p">])</span><span class="w"> </span><span class="c1">// &lt;&lt;i&lt;&lt;</span>
+</span><span class="hll"><span class="linenos">10</span><span class="w">      </span><span class="p">,.</span><span class="n">sum</span><span class="w">     </span><span class="p">(</span><span class="n">sum</span><span class="p">)</span><span class="w">   </span><span class="c1">// &gt;&gt;o&gt;&gt;</span>
+</span><span class="hll"><span class="linenos">11</span><span class="w">      </span><span class="p">,.</span><span class="n">cout</span><span class="w">    </span><span class="p">(</span><span class="n">cout</span><span class="p">)</span><span class="w">  </span><span class="c1">// &gt;&gt;o&gt;&gt;</span>
+</span><span class="hll"><span class="linenos">12</span><span class="w">   </span><span class="p">);</span>
+</span><span class="linenos">13</span>
+<span class="linenos">14</span><span class="w">   </span><span class="k">initial</span><span class="w">  </span><span class="k">begin</span>
+<span class="linenos">15</span><span class="w">      </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">3</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="linenos">16</span><span class="w">      </span><span class="p">#</span><span class="mh">100</span><span class="p">;</span>
+<span class="linenos">17</span><span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">integer</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mh">8</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mh">1</span><span class="p">)</span><span class="w">  </span><span class="k">begin</span>
+<span class="linenos">18</span><span class="w">         </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mh">1</span><span class="p">;</span>
+<span class="linenos">19</span><span class="w">         </span><span class="p">#</span><span class="mh">100</span><span class="p">;</span>
+<span class="linenos">20</span><span class="w">      </span><span class="k">end</span>
+<span class="hll"><span class="linenos">21</span><span class="w">      </span><span class="nb">$stop</span><span class="p">;</span>
+</span><span class="linenos">22</span><span class="w">   </span><span class="k">end</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="k">endmodule</span>
+</pre></div>
+</div>
+</div>
+<p>相信你理解这个程序并不会感到困难，
+在 Logisim 中，你可以把一个画布中的电路引出输入输出口，封装成模块，然后在另一个画布中放置这个模块。
+其中高亮的一大段，代表对 <code class="docutils literal notranslate"><span class="pre">ref_fa</span></code> 进行实例化，即在另一个模块中使用这个模块，然后将这个模块的信号与
+对应的信号相连。 <code class="docutils literal notranslate"><span class="pre">.a</span></code> 代表 ref_fa 中的 a 端口，后面括号中的 in[0] 是 ref_tb 中的信号，这样就完成了相连的操作。</p>
+<p>然后我们对 in[2:0] 信号进行驱动，也就是对它进行赋值操作，我们直接使用 for 循环进行遍历所有的输入情况，然后你可以对比
+所有的输入是否会得到正确的输出，即可完成 Testbench 仿真测试。</p>
+</section>
+<section id="id3">
+<h3>Vivado 功能仿真验证<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>完成了加法器和 Testbench 程序的编写，我们就可以进行仿真验证了。</p>
+<p>首先需要将编写好的源代码添加到工程中，我们可以通过这两个地方添加源文件。</p>
+<figure class="align-center">
+<img alt="add_source" src="../_images/add_source.png" />
+</figure>
 </section>
 </section>
 </section>
