@@ -1,4 +1,4 @@
-实验二 Verilog设计与仿真
+实验二 加法器设计与仿真
 ==========================================
 
 Verilog 是一种用于描述、设计电路的 **硬件描述语言 HDL (Hardware Description Language)** ，
@@ -101,11 +101,10 @@ Ripple-carry Adder 行波进位加法器
 
 .. raw:: html
 
-   <div class="admonition mytodo">
-      <p class="admonition-title">全加器</p >
-      <p>按照门电路的方式用 Verilog 描述全加器电路，即不使用 + 运算符。
-      完成编写 fa.v 文件， module 名字为 fa ，与文件名保持一致，
-      端口名也可与参考代码一致。</p >
+   <div class="admonition myquestion">
+      <p class="admonition-title">加法器的代码实现</p >
+      <p>加法器的 RTL 实现方式有很多，行波进位加法器、选择进位加法器、超前进位加法器、进位旁路加法器等。
+      当然还有上面参考代码的朴实无华的 + 号运算符实现的加法器，你觉得哪种代码编写的实现更好呢，开放答案，欢迎留下你的想法。</p>
    </div>
 
 
@@ -148,8 +147,7 @@ Verilog 代码设计完成后，还需要进行重要的步骤，即逻辑功能
    endmodule
 
 
-相信你理解这个程序并不会感到困难，
-在 Logisim 中，你可以把一个画布中的电路引出输入输出口，封装成模块，然后在另一个画布中放置这个模块。
+相信你理解这个程序并不会感到困难，在 Logisim 中，你可以把一个画布中的电路引出输入输出口，封装成模块，然后在另一个画布中放置这个模块。
 其中高亮的一大段，代表对 ``ref_fa`` 进行实例化，即在另一个模块中使用这个模块，然后将这个模块的信号与
 对应的信号相连。 ``.a`` 代表 ref_fa 中的 a 端口，后面括号中的 in[0] 是 ref_tb 中的信号，这样就完成了相连的操作。
 
@@ -166,5 +164,105 @@ Vivado 功能仿真验证
 .. figure:: ../picture/lab2/add_source.png
    :alt: add_source
    :align: center
+
+
+有三种类型的源文件，如下图所示，有 ``design source`` 设计文件、 ``simulation source`` 仿真文件和 ``constraints`` 约束文件。
+设计文件就是我们描述的电路，仿真文件就是 Testbench，约束文件下一次课才会使用。
+
+.. figure:: ../picture/lab2/source_type.png
+   :alt: source_type
+   :align: center
+
+
+依次添加设计文件和约束文件，添加完成之后，会自动更新源代码的结构，如下图所示。
+
+.. figure:: ../picture/lab2/source_struct.png
+   :alt: source_struct
+   :align: center
+
+
+源文件自动更新了顶层文件，如果你想修改顶层文件，可以对源文件右键 ``Set as Top`` 修改为顶层文件。点击行为仿真，即可进行仿真操作。
+
+.. figure:: ../picture/lab2/behavioral_simulation.png
+   :alt: behavioral_simulation
+   :align: center
+
+
+打开仿真界面后，我们可以看到仿真产生的信号波形，如下图所示。
+
+序号1的播放键按钮用于运行仿真，序号2的按钮用于重启仿真。
+
+序号3的方框可以选择模块，序号4的方框可以添加模块中的信号显示波形。
+
+序号5的方框用以显示信号波形，序号6的两个放大镜按钮可以放大和缩小波形显示范围，序号7的按钮将显示完整的仿真波形信号。
+
+.. figure:: ../picture/lab2/vcd.png
+   :alt: vcd
+   :align: center
+
+
+观察波形，每个输入信号是否都对应着正确的输出信号。
+
+Carry-look-ahead 超前进位加法器
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+超前进位加法器是一种进位链延迟更短的加法器，我们已经在理论课上学习了4位超前进位加法器的原理。
+
+4位超前进位加法器
+------------------------
+
+.. raw:: html
+
+   <div class="admonition mytodo">
+      <p class="admonition-title">4位超前进位加法器的实现</p >
+      <p>按照逻辑公式或者电路，完成4位超前进位加法器的代码实现。
+      下面给出了代码框架，在代码框架的基础上完成代码的编写。</p>
+   </div>
+
+
+.. code-block:: v
+   :caption: 4位超前进位加法器代码框架
+   :linenos:
+
+   module cla_4bit(a, b, cin, sum, cout);
+
+      input a, b, cin;
+      output sum, cout;
+
+      wire [3:0] a, b, sum;
+      wire cin, cout;
+
+      // Your codes should start from here.
+
+      // End of your codes.
+
+   endmodule
+
+
+全加器你写好了，你很自信，这真的还需要测试吗？4位超前进位加法器你也写好了，这个也不难，只需要非常的细心。
+那这个需要写 Testbench 测试吗，你现在有信心认为代码一定是正确的吗？
+
+那该怎么写呢，还是和参考的 Testbench 一样吗，不过这次的信号数量特别多，真值表一共有512列，我需要依次去看
+512次的波形，然后检查是否符合预期吗，这看起来很蠢 : (
+
+.. raw:: html
+
+   <div class="admonition myhint">
+      <p class="admonition-title">一个 Testbench 测试思路</p >
+      <p>我们能否改造一下 ref_fa ，其使用 + 号运算符，看起来会得到正确的结果。那我们能否同时测试我们写的4位超前进位加法器模块
+      和改造好的4位 ref_fa 模块，每次对比一下输出的值是否相同。如果不同则说明4位超前进位加法器模块有问题，
+      可以打印一句提示信息，这样就不用我们去一个个看波形了。打印信息可以使用 $display() 函数，使用方法很像 printf 函数，具体可以 STFW</p>
+   </div>
+
+
+.. raw:: html
+
+   <div class="admonition mytodo">
+      <p class="admonition-title">测试4位超前进位加法器</p >
+      <p>你编写的这个4位超前进位加法器后续会用于组成更大位宽的加法器，
+      以及之后的实验中，请你好好测试你的代码，不要留下Bug。
+      编写一个 Testbench 用于测试你的4位超前进位加法器，
+      命名规则最好类似于 tb_cla_4bit ，这样很清晰的能够看得出这是用于测试什么模块的激励文件。</p>
+   </div>
 
 
