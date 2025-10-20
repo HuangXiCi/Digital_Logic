@@ -11,49 +11,6 @@ Verilog 是一种用于描述、设计电路的 **硬件描述语言 HDL (Hardwa
 本次实验课我们使用 Verilog HDL 设计加法器等一些简单的电路，并编写 Testbench 程序，
 使用 Vivado 的仿真器测试我们设计的电路。
 
-Vivado 教程
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Vivado 是 Xilinx 公司的 FPGA 集成设计环境，本次实验我们将使用 Vivado 对 Verilog 设计进行仿真。
-我们推荐使用 Vivado 2018.3 ，安装 WebPACK 版本。
-该版本安装体积约 20 GB，而近几年的版本安装体积已经约 100 GB，WebPACK 是免费的，不需要许可证的版本，并且已经能够满足我们的实验需求。
-如果你此前已经安装 2015 年之后的版本，都是能够满足完成实验的。Vivado 不同的版本之间功能差异也比较小，在学习和使用上也不会造成困难。
-
-创建 adder 工程
--------------------------------
-
-打开 Vivado 软件，会来到 Vivado 软件初始界面
-
-.. figure:: ../picture/lab2/vivado_home.png
-   :alt: vivado_home
-   :align: center
-
-
-Vivado 软件很复杂，我们一点点来了解它。创建一个名为 adder 的新项目，并保存在合适的位置， **一定要是全英文的目录** 。
-勾选 ``Create project subdirectory`` 则会在保存新项目的地方创建一个项目名称的文件夹，用于存放项目的文件。
-你也可以手动创建一个项目名称的文件夹，作为保存项目的位置，就不勾选该选项了。
-
-.. figure:: ../picture/lab2/vivado_genprj.png
-   :alt: vivado_genprj
-   :align: center
-
-
-来到器件选择页面， ``Family`` 系列选择 ``Artix-7`` ， ``Package`` 封装方式选择 ``fgg484`` ，
-然后选择 ``xc7a100tfgg484`` ，完成器件选择，其余的步骤直接下一步即可。
-
-.. figure:: ../picture/lab2/vivado_device.png
-   :alt: vivado_device
-   :align: center
-
-
-完成创建项目，来到该项目初始页面，本次实验内容我们只需要关心红色方框标记出来的区域。
-左侧是 ``Flow Navigator`` 流程导航，我们完整的实验整个流程就是依次从上往下进行的。
-左上角是 ``项目管理`` ，目前由于正处于项目管理界面，因此 ``PROJECT MANAGER`` 是蓝色的。
-
-.. figure:: ../picture/lab2/vivado_prj.png
-   :alt: vivado_prj
-   :align: center
-
 
 Verilog 代码编写
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -104,7 +61,7 @@ Ripple-carry Adder 行波进位加法器
    <div class="admonition myquestion">
       <p class="admonition-title">加法器的代码实现</p >
       <p>加法器的 RTL 实现方式有很多，行波进位加法器、选择进位加法器、超前进位加法器、进位旁路加法器等。
-      当然还有上面参考代码的朴实无华的 + 号运算符实现的加法器，你觉得哪种代码编写的实现更好呢，开放答案，欢迎留下你的想法。</p>
+      当然还有上面参考代码的朴实无华的 + 号运算符实现的加法器，你觉得哪种代码编写的实现更好呢，这个问题开放答案，欢迎留下你的想法。</p>
    </div>
 
 
@@ -154,8 +111,49 @@ Verilog 代码设计完成后，还需要进行重要的步骤，即逻辑功能
 然后我们对 in[2:0] 信号进行驱动，也就是对它进行赋值操作，我们直接使用 for 循环进行遍历所有的输入情况，然后你可以对比
 所有的输入是否会得到正确的输出，即可完成 Testbench 仿真测试。
 
-Vivado 功能仿真验证
--------------------------------------
+Vivado 使用教程
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Vivado 是 Xilinx 公司的 FPGA 集成设计环境，本次实验我们将使用 Vivado 对 Verilog 设计进行仿真。
+我们推荐使用 Vivado 2018.3 ，安装 WebPACK 版本。
+该版本安装体积约 20 GB，而近几年的版本安装体积已经约 100 GB，WebPACK 是免费的，不需要许可证的版本，并且已经能够满足我们的实验需求。
+如果你此前已经安装 2015 年之后的版本，都是能够满足完成实验的。Vivado 不同的版本之间功能差异也比较小，在学习和使用上也不会造成困难。
+
+创建 adder 工程
+-------------------------------
+
+打开 Vivado 软件，会来到 Vivado 软件初始界面
+
+.. figure:: ../picture/lab2/vivado_home.png
+   :alt: vivado_home
+   :align: center
+
+
+Vivado 软件很复杂，我们一点点来了解它。创建一个名为 adder 的新项目，并保存在合适的位置， **一定要是全英文的目录** 。
+勾选 ``Create project subdirectory`` 则会在保存新项目的地方创建一个项目名称的文件夹，用于存放项目的文件。
+你也可以手动创建一个项目名称的文件夹，作为保存项目的位置，就不勾选该选项了。
+
+.. figure:: ../picture/lab2/vivado_genprj.png
+   :alt: vivado_genprj
+   :align: center
+
+
+来到器件选择页面， ``Family`` 系列选择 ``Artix-7`` ， ``Package`` 封装方式选择 ``fgg484`` ，
+然后选择 ``xc7a100tfgg484`` ，完成器件选择，其余的步骤直接下一步即可。
+
+.. figure:: ../picture/lab2/vivado_device.png
+   :alt: vivado_device
+   :align: center
+
+
+完成创建项目，来到该项目初始页面，本次实验内容我们只需要关心红色方框标记出来的区域。
+左侧是 ``Flow Navigator`` 流程导航，我们完整的实验整个流程就是依次从上往下进行的。
+左上角是 ``项目管理`` ，目前由于正处于项目管理界面，因此 ``PROJECT MANAGER`` 是蓝色的。
+
+.. figure:: ../picture/lab2/vivado_prj.png
+   :alt: vivado_prj
+   :align: center
+
 
 完成了加法器和 Testbench 程序的编写，我们就可以进行仿真验证了。
 
@@ -222,6 +220,7 @@ Carry-look-ahead 超前进位加法器
 
 .. code-block:: v
    :caption: 4位超前进位加法器代码框架
+   :emphasize-lines: 9-11
    :linenos:
 
    module cla_4bit(a, b, cin, sum, cout);
@@ -248,10 +247,10 @@ Carry-look-ahead 超前进位加法器
 .. raw:: html
 
    <div class="admonition myhint">
-      <p class="admonition-title">一个 Testbench 测试思路</p >
+      <p class="admonition-title">一种 Testbench 测试思路</p >
       <p>我们能否改造一下 ref_fa ，其使用 + 号运算符，看起来会得到正确的结果。那我们能否同时测试我们写的4位超前进位加法器模块
       和改造好的4位 ref_fa 模块，每次对比一下输出的值是否相同。如果不同则说明4位超前进位加法器模块有问题，
-      可以打印一句提示信息，这样就不用我们去一个个看波形了。打印信息可以使用 $display() 函数，使用方法很像 printf 函数，具体可以 STFW</p>
+      可以打印一句提示信息，这样就不用我们去一个个看波形了。打印信息可以使用 $display() 函数，使用方法很像 printf 函数，具体可以 STFW。</p>
    </div>
 
 
@@ -265,4 +264,75 @@ Carry-look-ahead 超前进位加法器
       命名规则最好类似于 tb_cla_4bit ，这样很清晰的能够看得出这是用于测试什么模块的激励文件。</p>
    </div>
 
+
+层次化超前进位加法器
+------------------------
+
+理论课上已经讲过层次化超前进位加法器，这样可以显著提升加法器的性能，但是随着加法器位宽的提升，进位的计算会花费指数级增加的电路开销。
+因此对于32位、64位等更大位宽的加法器，可以将低位宽的加法器块之间用行波进位等方式连接。
+
+.. raw:: html
+
+   <div class="admonition mytodo">
+      <p class="admonition-title">16位层次化超前进位加法器</p >
+      <p>我们可以改造一下之前的4位超前进位加法器代码，将 generate 进位生成信号 g 和 propagate 进位传递信号 p 输出，
+      给第二级超前进位电路使用，组成16位层次化超前进位加法器。下面给出了代码框架。</p>
+   </div>
+
+
+.. code-block:: v
+   :caption: 16位层次化选择进位加法器
+   :emphasize-lines: 9-11
+   :linenos:
+
+   module cla_16bit(a, b, cin, sum, cout);
+
+      input a, b, cin;
+      output sum, cout;
+
+      wire [15:0] a, b, sum;
+      wire cin, cout;
+
+      // Your codes should start from here.
+
+      // End of your codes.
+
+   endmodule
+
+
+选择进位加法器可以由3个16位加法器组成，低16位加法计算不变，另外两个加法器对高16位进行计算。一个进位假设为0，另一个假设为1，
+最后由低16位加法器实际计算出来的进位值输入 2-1 多路选通器（多路复用器），得到高16位的结果。这样可以有效减少了进位传播延迟，
+也是一种常见的加法器设计方法。
+
+.. figure:: ../picture/lab2/32bit_sel.png
+   :alt: 32bit_sel
+   :align: center
+
+
+.. raw:: html
+
+   <div class="admonition myoption">
+      <p class="admonition-title">设计32位层次化选择进位加法器</p >
+      <p>按照上图所示的选择进位加法器结构，将16位层次化超前进位加法器作为模块，
+      使用选择进位的方式，完成最终的32位的加法器模块。</p>
+   </div>
+
+
+.. raw:: html
+
+   <div class="admonition mydanger">
+      <p class="admonition-title">如何验证16位、32位层次化选择进位加法器</p >
+      <p>电路复杂度又上升了，你不验证还有信心保证你的电路一定是正确的吗？
+      那么问题又来了，怎么验证呢？对于64位的加法器验证，难道将所有的情况都穷举，然后与64位的 ref_fa 比较结果吗？
+      我已经算不清输入有多少种情况了， 2^64 * 2^64 * 2 种情况，即便是使用无比强大的计算机仿真，
+      也不能轻松搞定，这看起来真的很蠢。</p>
+   </div>
+
+
+.. raw:: html
+
+   <div class="admonition myhint">
+      <p class="admonition-title">另一种 Testbench 测试思路</p >
+      <p>...</p>
+   </div>
 
