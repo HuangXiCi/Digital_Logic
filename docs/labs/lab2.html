@@ -180,6 +180,10 @@
 <p>相信你理解这个程序并不会感到困难，在 Logisim 中，你可以把一个画布中的电路引出输入输出口，封装成模块，然后在另一个画布中放置这个模块。
 其中高亮的一大段，代表对 <code class="docutils literal notranslate"><span class="pre">ref_fa</span></code> 进行实例化，即在另一个模块中使用这个模块，然后将这个模块的信号与
 对应的信号相连。 <code class="docutils literal notranslate"><span class="pre">.a</span></code> 代表 ref_fa 中的 a 端口，后面括号中的 in[0] 是 ref_tb 中的信号，这样就完成了相连的操作。</p>
+<p>Testbench 中一定会使用到 `timescale [timeunit]/[timeprecision] 。用来表示仿真时间的基本单位和时间精度。
+<code class="docutils literal notranslate"><span class="pre">#100</span></code> 也就是延迟 100个时间单位之后，再接着执行后面的语句。而时间精度代表最小的仿真尺度，对于 `timescale 1ns/1ps 你写 <code class="docutils literal notranslate"><span class="pre">#1.1111</span></code> ，
+则延迟 1.1111 ns，但由于 0.0001 是 0.1 ps，时间精度没这么高，因此会四舍五入变成延迟 1.111 ns。</p>
+<p>$stop 系统任务则是将仿真暂停，有点像是 Debug 打断点，你运行就会发现箭头指向 $stop ，仿真停下来了，可以手动继续运行仿真。</p>
 <p>然后我们对 in[2:0] 信号进行驱动，也就是对它进行赋值操作，我们直接使用 for 循环进行遍历所有的输入情况，然后你可以对比
 所有的输入是否会得到正确的输出，即可完成 Testbench 仿真测试。</p>
 </section>
@@ -275,9 +279,13 @@
 <div class="admonition myhint">
    <p class="admonition-title">一种 Testbench 测试思路</p >
    <p>我们能否改造一下 ref_fa ，其使用 + 号运算符，看起来会得到正确的结果。那我们能否同时测试我们写的4位超前进位加法器模块
-   和改造好的4位 ref_fa 模块，每次对比一下输出的值是否相同。如果不同则说明4位超前进位加法器模块有问题，
+   和改造好的4位 ref_fa 模块，每次对比一下输出的值是否相同。如果结果不相同则说明4位超前进位加法器模块有问题，
+   我们把参考机称为 ref (Reference) ，而我们的待测电路称为 dut (Device Under Test) ，原理如下图所示。
    可以打印一句提示信息，这样就不用我们去一个个看波形了。打印信息可以使用 $display() 函数，使用方法很像 printf 函数，具体可以 STFW。</p>
-</div><div class="admonition mytodo">
+</div><figure class="align-center">
+<img alt="Testbench" src="../_images/Testbench.png" />
+</figure>
+<div class="admonition mytodo">
    <p class="admonition-title">测试4位超前进位加法器</p >
    <p>你编写的这个4位超前进位加法器后续会用于组成更大位宽的加法器，
    以及之后的实验中，请你好好测试你的代码，不要留下Bug。
@@ -323,8 +331,8 @@
    <p class="admonition-title">设计32位层次化选择进位加法器</p >
    <p>按照上图所示的选择进位加法器结构，将16位层次化超前进位加法器作为模块，
    使用选择进位的方式，完成最终的32位的加法器模块。</p>
-</div><div class="admonition mydanger">
-   <p class="admonition-title">如何验证16位、32位加法器</p >
+</div><div class="admonition mycaution">
+   <p class="admonition-title">验证16位、32位加法器</p >
    <p>电路复杂度又上升了，你不验证还有信心保证你的电路一定是正确的吗？
    那么问题又来了，怎么验证呢？对于64位的加法器验证，难道将所有的情况都穷举，然后与64位的 ref_fa 比较结果吗？
    我已经算不清输入有多少种情况了， 2^64 * 2^64 * 2 种情况，即便是使用无比强大的计算机仿真，
@@ -332,7 +340,8 @@
 </div><div class="admonition myhint">
    <p class="admonition-title">另一种 Testbench 测试思路</p >
    <p>在其他编程语言中有生成随机数的函数， Verilog 也不例外，我们可以利用 $random 这个函数帮我们生成一些随机数，
-   帮助我们随机测试一些样例，然后循环10000次，或者100000次，或者更多。</p>
+   帮助我们随机测试一些样例，然后循环10000次，或者100000次，或者更多。此外，对于一些特殊的情况，我们还可以手动地去测试，
+   以确保我们的电路符合要求。比如输入全0，全1；除法器我们可能需要对除0进行测试等。</p>
 </div><div class="literal-block-wrapper docutils container" id="id10">
 <div class="code-block-caption"><span class="caption-text">测试激励示例</span><a class="headerlink" href="#id10" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">initial</span><span class="w">  </span><span class="k">begin</span>
@@ -352,7 +361,20 @@
 </pre></div>
 </div>
 </div>
-</section>
+<div class="admonition myhint">
+   <p class="admonition-title">有错误怎么去 Debug </p >
+   <p>更重要的可能是有错误怎么去 Debug，但毕竟这次加法器的原理和结构并不难。只要你仔仔细细对照公式或者电路，
+   就能得到正确的功能。但 Bug 是在所难免的，那么遇到错误了，怎么去 Debug 呢。
+   我们的改造的 ref_fa 可以认为是参考机、标准答案，当然前提是你设计正确。那么与参考机不同的输出结果就认为是有问题的，
+   这时候我们就可以查看我们打印的错误信息，或者查看错误的波形，手动验算一下，核对哪些信号有问题，就去检查相应的代码。
+   假如你觉得信号数量太多了，根本无从下手，对于你搭建的32位层次化选择进位加法器，我们建议你先把16位层次化超前进位加法器模块验证正确，
+   毕竟选择进位加法器的结构是很简单的，而16位层次化超前进位加法器模块稍微复杂一点。你直接验证32位层次化选择进位加法器，
+   可能没办法定位出问题出在32位的选择进位加法器结构，还是16位层次化超前进位加法器结构，甚至是4位的超前进位加法器。
+   <strong>所以好的办法当然是写一个模块验证一个，写一点代码验证一点，这样可以快速定位问题，也可能更早的暴露代码的Bug，</strong>
+   而不是写了1000行代码了，再去验证。
+   因此我们16位层次化超前进位加法器、32位层次化选择进位加法器并没有显式地让你设计完就做验证，是希望你能够一开始就养成好的习惯，自己设计好后主动去验证所有的代码模块，
+   而不是最后只能求助于老师、助教或者同学。</p>
+</div></section>
 </section>
 </section>
 
