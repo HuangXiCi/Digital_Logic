@@ -48,9 +48,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="lab1.html">实验一 异或门</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">实验二 加法器设计与仿真</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#verilog">Verilog 代码编写</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#verilog">Verilog 代码编写环境</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#vs-code-verilog-hdl-systemverilog-bluespec-systemverilog-ctags">VS Code + Verilog-HDL/SystemVerilog/Bluespec SystemVerilog + ctags 插件</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ripple-carry-adder">Ripple-carry Adder 行波进位加法器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#full-adder">Full Adder 全加器</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#testbench">第一个 Testbench 程序</a></li>
 </ul>
 </li>
@@ -61,6 +61,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#carry-look-ahead">Carry-look-ahead 超前进位加法器</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id3">4位超前进位加法器</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id4">层次化超前进位加法器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">选择进位加法器</a></li>
 </ul>
 </li>
 </ul>
@@ -103,7 +104,7 @@
 <p>本次实验课我们使用 Verilog HDL 设计加法器等一些简单的电路，并编写 Testbench 程序，
 使用 Vivado 的仿真器测试我们设计的电路。</p>
 <section id="verilog">
-<h2>Verilog 代码编写<a class="headerlink" href="#verilog" title="Link to this heading"></a></h2>
+<h2>Verilog 代码编写环境<a class="headerlink" href="#verilog" title="Link to this heading"></a></h2>
 <p>工欲善其事，必先利其器。
 一个好的代码 Coding 环境能极大的帮助你编写代码。</p>
 <section id="vs-code-verilog-hdl-systemverilog-bluespec-systemverilog-ctags">
@@ -116,12 +117,11 @@
 来说，这些功能不会陌生。你们可以在 <a class="reference external" href="https://dphweb.cn/index.php/2023/08/22/verilog-hdl%e6%8f%92%e4%bb%b6%e9%85%8d%e7%bd%ae%e6%95%99%e7%a8%8b/">这里</a> 学习
 配置教程，并不复杂。</p>
 </section>
-<section id="ripple-carry-adder">
-<h3>Ripple-carry Adder 行波进位加法器<a class="headerlink" href="#ripple-carry-adder" title="Link to this heading"></a></h3>
-<p>行波进位加法器是最基本的数字电路加法器实现，它通过串联多个全加器来实现多位二进制数的加法操作。
-这里我们给出一种 Full Adder 全加器的 Verilog 实现方式参考:</p>
-<div class="literal-block-wrapper docutils container" id="id5">
-<div class="code-block-caption"><span class="caption-text">Full Adder 全加器的 Verilog 实现方式参考</span><a class="headerlink" href="#id5" title="Link to this code"></a></div>
+<section id="full-adder">
+<h3>Full Adder 全加器<a class="headerlink" href="#full-adder" title="Link to this heading"></a></h3>
+<p>我们给出一种 Full Adder 全加器的 Verilog 实现方式参考：</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">Full Adder 全加器的 Verilog 实现方式参考</span><a class="headerlink" href="#id6" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">module</span><span class="w"> </span><span class="n">ref_fa</span><span class="w"> </span><span class="p">(</span>
 <span class="linenos"> 2</span><span class="w">    </span><span class="n">a</span><span class="w">       </span><span class="c1">// &lt;&lt;i&lt;&lt;</span>
 <span class="linenos"> 3</span><span class="w">   </span><span class="p">,</span><span class="n">b</span><span class="w">       </span><span class="c1">// &lt;&lt;i&lt;&lt;</span>
@@ -148,8 +148,8 @@
 <p>Verilog 代码设计完成后，还需要进行重要的步骤，即逻辑功能仿真，仿真激励文件称之为 testbench，
 就像你之前使用 Logisim 设计完电路之后，需要你输入信号，观察输出，检查你的电路设计功能是否符合你的要求。</p>
 <p>我们从一个全加器的简单 Testbench 入手，编写你自己的第一个 Testbench 程序。</p>
-<div class="literal-block-wrapper docutils container" id="id6">
-<div class="code-block-caption"><span class="caption-text">一个全加器的简单 Testbench</span><a class="headerlink" href="#id6" title="Link to this code"></a></div>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">一个全加器的简单 Testbench</span><a class="headerlink" href="#id7" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos"> 1</span><span class="no">`timescale</span><span class="w"> </span><span class="mh">1</span><span class="n">ns</span><span class="o">/</span><span class="mh">1</span><span class="n">ps</span>
 </span><span class="linenos"> 2</span><span class="k">module</span><span class="w"> </span><span class="n">ref_tb</span><span class="w"> </span><span class="p">();</span>
 <span class="linenos"> 3</span><span class="w">   </span><span class="kt">reg</span><span class="w"> </span><span class="p">[</span><span class="mh">2</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">in</span><span class="p">;</span>
@@ -250,8 +250,8 @@
    <p class="admonition-title">4位超前进位加法器的实现</p >
    <p>按照逻辑公式或者电路，完成4位超前进位加法器的代码实现。
    下面给出了代码框架，在代码框架的基础上完成代码的编写。</p>
-</div><div class="literal-block-wrapper docutils container" id="id7">
-<div class="code-block-caption"><span class="caption-text">4位超前进位加法器代码框架</span><a class="headerlink" href="#id7" title="Link to this code"></a></div>
+</div><div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">4位超前进位加法器代码框架</span><a class="headerlink" href="#id8" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">module</span><span class="w"> </span><span class="n">cla_4bit</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">cin</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">,</span><span class="w"> </span><span class="n">cout</span><span class="p">);</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="w">   </span><span class="k">input</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">cin</span><span class="p">;</span>
@@ -292,8 +292,8 @@
    <p class="admonition-title">16位层次化超前进位加法器</p >
    <p>我们可以改造一下之前的4位超前进位加法器代码，将 generate 进位生成信号 g 和 propagate 进位传递信号 p 输出，
    给第二级超前进位电路使用，组成16位层次化超前进位加法器。下面给出了代码框架。</p>
-</div><div class="literal-block-wrapper docutils container" id="id8">
-<div class="code-block-caption"><span class="caption-text">16位层次化选择进位加法器</span><a class="headerlink" href="#id8" title="Link to this code"></a></div>
+</div><div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">16位层次化选择进位加法器</span><a class="headerlink" href="#id9" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">module</span><span class="w"> </span><span class="n">cla_16bit</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">cin</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">,</span><span class="w"> </span><span class="n">cout</span><span class="p">);</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="w">   </span><span class="k">input</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">cin</span><span class="p">;</span>
@@ -310,9 +310,12 @@
 </pre></div>
 </div>
 </div>
+</section>
+<section id="id5">
+<h3>选择进位加法器<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <p>选择进位加法器可以由3个16位加法器组成，低16位加法计算不变，另外两个加法器对高16位进行计算。一个进位假设为0，另一个假设为1，
-最后由低16位加法器实际计算出来的进位值输入 2-1 多路选通器（多路复用器），得到高16位的结果。这样可以有效减少了进位传播延迟，
-也是一种常见的加法器设计方法。</p>
+最后由低16位加法器实际计算出来的进位值输入 2-1 多路选通器（多路复用器），得到高16位的结果。这样可以有效减少了进位传播延迟。
+这种设计与超前进位加法器相比，所需的电路数量并非指数级增长，而是大约多花50%的电路开销，也是一种常见的加法器设计方法，可以用于组成位宽很大的加法器。</p>
 <figure class="align-center">
 <img alt="32bit_sel" src="../_images/32bit_sel.png" />
 </figure>
@@ -321,15 +324,35 @@
    <p>按照上图所示的选择进位加法器结构，将16位层次化超前进位加法器作为模块，
    使用选择进位的方式，完成最终的32位的加法器模块。</p>
 </div><div class="admonition mydanger">
-   <p class="admonition-title">如何验证16位、32位层次化选择进位加法器</p >
+   <p class="admonition-title">如何验证16位、32位加法器</p >
    <p>电路复杂度又上升了，你不验证还有信心保证你的电路一定是正确的吗？
    那么问题又来了，怎么验证呢？对于64位的加法器验证，难道将所有的情况都穷举，然后与64位的 ref_fa 比较结果吗？
    我已经算不清输入有多少种情况了， 2^64 * 2^64 * 2 种情况，即便是使用无比强大的计算机仿真，
    也不能轻松搞定，这看起来真的很蠢。</p>
 </div><div class="admonition myhint">
    <p class="admonition-title">另一种 Testbench 测试思路</p >
-   <p>...</p>
-</div></section>
+   <p>在其他编程语言中有生成随机数的函数， Verilog 也不例外，我们可以利用 $random 这个函数帮我们生成一些随机数，
+   帮助我们随机测试一些样例，然后循环10000次，或者100000次，或者更多。</p>
+</div><div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">测试激励示例</span><a class="headerlink" href="#id10" title="Link to this code"></a></div>
+<div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">initial</span><span class="w">  </span><span class="k">begin</span>
+<span class="hll"><span class="linenos"> 2</span><span class="w">   </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">integer</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mh">100000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mh">1</span><span class="p">)</span><span class="w">  </span><span class="k">begin</span>
+</span><span class="linenos"> 3</span><span class="w">      </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">$random</span><span class="p">;</span>
+<span class="linenos"> 4</span><span class="w">      </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">$random</span><span class="p">;</span>
+<span class="linenos"> 5</span><span class="w">      </span><span class="n">cin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">$random</span><span class="p">;</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="w">      </span><span class="p">#</span><span class="mh">100</span><span class="p">;</span>
+<span class="linenos"> 8</span>
+<span class="hll"><span class="linenos"> 9</span><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">ref_sum</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">dut_sum</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">ref_cout</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">dut_cout</span><span class="p">))</span><span class="w">   </span><span class="k">begin</span>
+</span><span class="hll"><span class="linenos">10</span><span class="w">         </span><span class="nb">$display</span><span class="p">(</span><span class="s">&quot;Print tests failed information&quot;</span><span class="p">);</span>
+</span><span class="hll"><span class="linenos">11</span><span class="w">         </span><span class="nb">$stop</span><span class="p">;</span><span class="w">   </span><span class="c1">// 如果有错误暂停仿真</span>
+</span><span class="hll"><span class="linenos">12</span><span class="w">      </span><span class="k">end</span>
+</span><span class="linenos">13</span><span class="w">   </span><span class="k">end</span>
+<span class="linenos">14</span><span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</section>
 </section>
 </section>
 

@@ -12,7 +12,7 @@ Verilog 是一种用于描述、设计电路的 **硬件描述语言 HDL (Hardwa
 使用 Vivado 的仿真器测试我们设计的电路。
 
 
-Verilog 代码编写
+Verilog 代码编写环境
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 工欲善其事，必先利其器。
@@ -30,11 +30,10 @@ Vivado 作为一个集成开发环境，拥有代码编辑能力。不过作为�
 来说，这些功能不会陌生。你们可以在 `这里 <https://dphweb.cn/index.php/2023/08/22/verilog-hdl%e6%8f%92%e4%bb%b6%e9%85%8d%e7%bd%ae%e6%95%99%e7%a8%8b/>`_ 学习
 配置教程，并不复杂。
 
-Ripple-carry Adder 行波进位加法器
+Full Adder 全加器
 ------------------------------------------------------
 
-行波进位加法器是最基本的数字电路加法器实现，它通过串联多个全加器来实现多位二进制数的加法操作。
-这里我们给出一种 Full Adder 全加器的 Verilog 实现方式参考:
+我们给出一种 Full Adder 全加器的 Verilog 实现方式参考：
 
 .. code-block:: v
    :caption: Full Adder 全加器的 Verilog 实现方式参考
@@ -300,9 +299,12 @@ Carry-look-ahead 超前进位加法器
    endmodule
 
 
+选择进位加法器
+------------------------
+
 选择进位加法器可以由3个16位加法器组成，低16位加法计算不变，另外两个加法器对高16位进行计算。一个进位假设为0，另一个假设为1，
-最后由低16位加法器实际计算出来的进位值输入 2-1 多路选通器（多路复用器），得到高16位的结果。这样可以有效减少了进位传播延迟，
-也是一种常见的加法器设计方法。
+最后由低16位加法器实际计算出来的进位值输入 2-1 多路选通器（多路复用器），得到高16位的结果。这样可以有效减少了进位传播延迟。
+这种设计与超前进位加法器相比，所需的电路数量并非指数级增长，而是大约多花50%的电路开销，也是一种常见的加法器设计方法，可以用于组成位宽很大的加法器。
 
 .. figure:: ../picture/lab2/32bit_sel.png
    :alt: 32bit_sel
@@ -321,7 +323,7 @@ Carry-look-ahead 超前进位加法器
 .. raw:: html
 
    <div class="admonition mydanger">
-      <p class="admonition-title">如何验证16位、32位层次化选择进位加法器</p >
+      <p class="admonition-title">如何验证16位、32位加法器</p >
       <p>电路复杂度又上升了，你不验证还有信心保证你的电路一定是正确的吗？
       那么问题又来了，怎么验证呢？对于64位的加法器验证，难道将所有的情况都穷举，然后与64位的 ref_fa 比较结果吗？
       我已经算不清输入有多少种情况了， 2^64 * 2^64 * 2 种情况，即便是使用无比强大的计算机仿真，
@@ -333,6 +335,28 @@ Carry-look-ahead 超前进位加法器
 
    <div class="admonition myhint">
       <p class="admonition-title">另一种 Testbench 测试思路</p >
-      <p>...</p>
+      <p>在其他编程语言中有生成随机数的函数， Verilog 也不例外，我们可以利用 $random 这个函数帮我们生成一些随机数，
+      帮助我们随机测试一些样例，然后循环10000次，或者100000次，或者更多。</p>
    </div>
+
+
+.. code-block:: v
+   :caption: 测试激励示例
+   :emphasize-lines: 2, 9-12
+   :linenos:
+
+   initial  begin
+      for (integer i = 0; i < 100000; i = i + 1)  begin
+         a = $random;
+         b = $random;
+         cin = $random;
+
+         #100;
+
+         if ((ref_sum != dut_sum) || (ref_cout != dut_cout))   begin
+            $display("Print tests failed information");
+            $stop;   // 如果有错误暂停仿真
+         end
+      end
+   end
 
