@@ -20,6 +20,12 @@ help:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 copy:
-	rm -rf docs/*
-	touch docs/.nojekyll
-	cp -r build/html/* docs/
+ifeq ($(OS),Windows_NT)
+	@powershell -Command "Remove-Item ./docs/* -Recurse -Force -ErrorAction SilentlyContinue"
+	@powershell -Command "Copy-Item -Recurse -Path "./build/html/*" -Destination "./docs/""
+	@powershell -Command "New-Item -Path "./docs/.nojekyll" -ItemType File"
+else
+    @rm -rf docs/*
+	@cp -r build/html/* docs/
+	@touch docs/.nojekyll
+endif
