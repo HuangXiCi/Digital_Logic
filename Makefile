@@ -19,15 +19,7 @@ help:
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-# copy:
-# ifeq ($(OS),Windows_NT)
-# 	powershell -Command "Remove-Item ./docs -Force -Recurse -ErrorAction SilentlyContinue"
-# 	powershell -Command "Copy-Item -Recurse -Path "./build/html" -Destination "./docs""
-# else
-#     rm -rf docs/*
-# 	cp -r build/html/* docs/
-# endif
-
 copy:
 	rm -rf docs/*
+	touch .nojekyll
 	cp -r build/html/* docs/
