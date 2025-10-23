@@ -166,6 +166,12 @@
 <figure class="align-center">
 <img alt="how2simulate" src="../_images/how2simulate.png" />
 </figure>
+<p>当你使用多位宽的时候，经常会有拆分、合并的操作。比如将输入的8位信号拆分成每一位来表示，或者输出的时候将8位输出信号线组合成一个8位的线，
+线路 (Wiring) 库中的分线器 (Splitter) 可以帮助你完成这件事。我们以下面的图展示如何使用它。它不用关心哪边是输入输出的问题，只是起到了连线的作用。</p>
+<figure class="align-center">
+<img alt="splitter" src="../_images/splitter.png" />
+</figure>
+<p>我使用 Splitter 完成了bit位倒序的操作，即 bit0 变成了 bit7 。</p>
 </section>
 <section id="id6">
 <h2>不同视角下的异或门<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
