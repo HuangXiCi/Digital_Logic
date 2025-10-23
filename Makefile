@@ -22,7 +22,7 @@ help:
 copy:
 ifeq ($(OS),Windows_NT)
 	powershell -Command "Remove-Item ./docs/* -Force -ErrorAction SilentlyContinue"
-	powershell -Command "Copy-Item -Path "./build/html/*" -Destination "./docs/""
+	powershell -Command "Copy-Item -Recurse -Path "./build/html/*" -Destination "./docs/""
 else
     rm -rf docs/*
 	cp -r build/html/* docs/
