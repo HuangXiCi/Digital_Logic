@@ -243,6 +243,10 @@
 <img alt="vcd" src="../_images/vcd.png" />
 </figure>
 <p>观察波形，每个输入信号是否都对应着正确的输出信号。</p>
+<p>如果你有 <code class="docutils literal notranslate"><span class="pre">$display</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">$monitor</span></code> 等函数，输出内容会显示在 Vivado 下方的 Tcl Console 中。</p>
+<figure class="align-center">
+<img alt="Hello_World" src="../_images/Hello_World.png" />
+</figure>
 </section>
 </section>
 <section id="carry-look-ahead">
@@ -302,7 +306,7 @@
    <p>我们可以改造一下之前的4位超前进位加法器代码，将 generate 进位生成信号 g 和 propagate 进位传递信号 p 输出，
    给第二级超前进位电路使用，组成16位层次化超前进位加法器。下面给出了代码框架。</p>
 </div><div class="literal-block-wrapper docutils container" id="id9">
-<div class="code-block-caption"><span class="caption-text">16位层次化选择进位加法器</span><a class="headerlink" href="#id9" title="Link to this code"></a></div>
+<div class="code-block-caption"><span class="caption-text">16位层次化超前进位加法器</span><a class="headerlink" href="#id9" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">module</span><span class="w"> </span><span class="n">cla_16bit</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">cin</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">,</span><span class="w"> </span><span class="n">cout</span><span class="p">);</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="w">   </span><span class="k">input</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">cin</span><span class="p">;</span>

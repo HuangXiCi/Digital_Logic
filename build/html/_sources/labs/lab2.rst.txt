@@ -206,6 +206,13 @@ Vivado 软件很复杂，我们一点点来了解它。创建一个名为 adder 
 
 观察波形，每个输入信号是否都对应着正确的输出信号。
 
+如果你有 ``$display`` 或者 ``$monitor`` 等函数，输出内容会显示在 Vivado 下方的 Tcl Console 中。
+
+.. figure:: ../picture/lab2/Hello_World.png
+   :alt: Hello_World
+   :align: center
+
+
 Carry-look-ahead 超前进位加法器
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -293,7 +300,7 @@ Carry-look-ahead 超前进位加法器
 
 
 .. code-block:: v
-   :caption: 16位层次化选择进位加法器
+   :caption: 16位层次化超前进位加法器
    :emphasize-lines: 9-11
    :linenos:
 
