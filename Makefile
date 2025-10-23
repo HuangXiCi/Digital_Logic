@@ -21,5 +21,4 @@ help:
 
 copy:
 	rm -rf docs/*
-	touch .nojekyll
 	cp -r build/html/* docs/
