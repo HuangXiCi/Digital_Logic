@@ -243,7 +243,7 @@ S6 按键被我作为 ``reset`` 复位信号输入到 FPGA 内部，当按下 S6
 .. raw:: html
 
    <div class="admonition mycaution">
-      <p class="admonition-title">ASIC设计与FPGA的区别</p >
+      <p class="admonition-title">驱动安装</p >
       <p>请仔细检查你的驱动程序是否安装，如果没有安装，请按照 Vivado 安装教程安装驱动程序，否则电脑无法检测到 FPGA ，无法对 FPGA 进行编程。</p>
    </div>
 
