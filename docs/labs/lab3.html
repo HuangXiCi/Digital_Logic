@@ -49,12 +49,15 @@
 <li class="toctree-l1"><a class="reference internal" href="lab1.html">实验一 异或门</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lab2.html">实验二 加法器设计与仿真</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">实验三 加减法器设计</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">加法器实现减法操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">加减法器</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">输出加法器结果</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#logic-synthesis">逻辑综合 Logic Synthesis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#implementation">实现 Implementation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#i-o-planning">管脚绑定 I/O Planning</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id3">方法一 添加设计约束文件</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id4">方法二 使用图形化绑定管脚</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">方法一 添加设计约束文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">方法二 使用图形化绑定管脚</a></li>
 </ul>
 </li>
 </ul>
@@ -93,7 +96,7 @@
   <section id="id1">
 <h1>实验三 加减法器设计<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
 <section id="id2">
-<h2>加法器实现减法操作<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h2>加减法器<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p>如果参与运算的操作数都是补码，那么加法器是可以同时实现加法和减法操作的。
 <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">-</span> <span class="pre">B</span> <span class="pre">=</span> <span class="pre">A</span> <span class="pre">+</span> <span class="pre">(-B)</span></code> ，因此我们对B的补码进行取反加一操作，就能得到 -B，
 再让 A 与 -B 经过加法器相加，便完成了 A - B 的操作。</p>
@@ -108,7 +111,61 @@
    <p class="admonition-title">加法器的 RTL 实现</p >
    <p>使用实验二中的 cla_4bit 模块搭建层次化的 cla_8bit ，并仿真验证。
    然后按照上图的方式搭建能够实现减法操作的电路，完成最终的加法器设计并仿真验证。</p>
+</div><section id="id3">
+<h3>输出加法器结果<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>我们提供了一些源代码，能够让你的加法器能够在 FPGA 上输入输出。加法器的输入有 8bit 的 a 和 b，以及 sub 信号，因此需要
+17个输入，我们的 FPGA 上拥有 24 个用户拨码开关。</p>
+<figure class="align-center">
+<img alt="minisys" src="../_images/minisys.png" />
+</figure>
+<p>我们计划使用 7段数码管 显示你的加法器结果，拨码开关作为你的加法器二进制输入，每一个开关代表一位二进制数。
+我们提供了 7段数码管 的控制电路：seg_driver 模块，你需要做的是将你的加法器结果输出到 seg_driver 模块的 data 端口，
+data 端口是32位宽的端口，因为有 8个 7段数码管，因此可以16进制数显示32位宽的二进制数。</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">4位超前进位加法器代码框架</span><a class="headerlink" href="#id6" title="Link to this code"></a></div>
+<div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">top</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos"> 2</span><span class="w">     </span><span class="n">clk</span>
+<span class="linenos"> 3</span><span class="w">     </span><span class="p">,</span><span class="n">a</span>
+<span class="linenos"> 4</span><span class="w">     </span><span class="p">,</span><span class="n">b</span>
+<span class="linenos"> 5</span><span class="w">     </span><span class="p">,</span><span class="n">ctrl_addsub</span>
+<span class="linenos"> 6</span><span class="w">     </span><span class="p">,</span><span class="n">reset</span>
+<span class="linenos"> 7</span><span class="w">     </span><span class="p">,</span><span class="n">code</span>
+<span class="linenos"> 8</span><span class="w">     </span><span class="p">,</span><span class="n">cs_o</span>
+<span class="linenos"> 9</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">10</span>
+<span class="hll"><span class="linenos">11</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8</span><span class="p">;</span>
+</span><span class="linenos">12</span>
+<span class="linenos">13</span><span class="w"> </span><span class="k">input</span><span class="w">   </span><span class="kt">wire</span><span class="w">            </span><span class="n">clk</span><span class="p">;</span><span class="w">    </span><span class="c1">// 100 Mhz System Clock</span>
+<span class="linenos">14</span><span class="w"> </span><span class="k">input</span><span class="w">   </span><span class="kt">wire</span><span class="w">    </span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mh">1</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="linenos">15</span><span class="w"> </span><span class="k">input</span><span class="w">   </span><span class="kt">wire</span><span class="w">            </span><span class="n">ctrl_addsub</span><span class="p">;</span>
+<span class="linenos">16</span><span class="w"> </span><span class="k">input</span><span class="w">   </span><span class="kt">wire</span><span class="w">            </span><span class="n">reset</span><span class="p">;</span>
+<span class="linenos">17</span><span class="w"> </span><span class="k">output</span><span class="w">  </span><span class="kt">wire</span><span class="w">    </span><span class="p">[</span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">   </span><span class="n">code</span><span class="p">;</span>
+<span class="linenos">18</span><span class="w"> </span><span class="k">output</span><span class="w">  </span><span class="kt">wire</span><span class="w">    </span><span class="p">[</span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">   </span><span class="n">cs_o</span><span class="p">;</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="w"> </span><span class="kt">wire</span><span class="w">    </span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mh">1</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">sum</span><span class="p">;</span>
+<span class="linenos">21</span><span class="w"> </span><span class="kt">wire</span><span class="w">            </span><span class="n">cout</span><span class="p">;</span>
+<span class="linenos">22</span>
+<span class="hll"><span class="linenos">23</span><span class="w"> </span><span class="n">adder_sub_4bit</span><span class="w"> </span><span class="n">u_adder_sub_4bit</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">0</span><span class="p">],</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">0</span><span class="p">],</span><span class="w"> </span><span class="n">sum</span><span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">0</span><span class="p">],</span><span class="w"> </span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="n">ctrl_addsub</span><span class="p">);</span><span class="w">  </span><span class="c1">// change to instant of your add/sub module</span>
+</span><span class="linenos">24</span>
+<span class="linenos">25</span><span class="w"> </span><span class="n">seg_driver</span><span class="w"> </span><span class="n">u_seg_driver</span><span class="p">(</span>
+<span class="linenos">26</span><span class="w">     </span><span class="p">.</span><span class="n">clk</span><span class="w">     </span><span class="p">(</span><span class="n">clk</span><span class="p">)</span>
+<span class="hll"><span class="linenos">27</span><span class="w">     </span><span class="p">,.</span><span class="n">data</span><span class="w">   </span><span class="p">({</span><span class="mh">27</span><span class="mi">&#39;d0</span><span class="p">,</span><span class="w"> </span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">})</span>
+</span><span class="linenos">28</span><span class="w">     </span><span class="p">,.</span><span class="n">reset</span><span class="w">  </span><span class="p">(</span><span class="n">reset</span><span class="p">)</span>
+<span class="linenos">29</span><span class="w">     </span><span class="p">,.</span><span class="n">code</span><span class="w">   </span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+<span class="linenos">30</span><span class="w">     </span><span class="p">,.</span><span class="n">cs_o</span><span class="w">   </span><span class="p">(</span><span class="n">cs_o</span><span class="p">)</span>
+<span class="linenos">31</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="w"> </span><span class="k">endmodule</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition mytodo">
+   <p class="admonition-title">加法器连接7段数码管</p >
+   <p>我们只需要修改第27行代码的 data 端口连接上你的加法器输出，同时注意位宽需要匹配。
+   完成 RTL 代码的修改。这样我们提供的7段数码管电路就会将你的二进制数转换为16进制数，
+   并最终在 FPGA 的7段数码管上显示出来。</p>
 </div></section>
+</section>
 <section id="logic-synthesis">
 <h2>逻辑综合 Logic Synthesis<a class="headerlink" href="#logic-synthesis" title="Link to this heading"></a></h2>
 <p>我们都已经上手写过一些 Verilog 代码了，本次实验我们会使用修改并验证过的代码，在 FPGA 上运行我们设计的加减法器。</p>
@@ -172,11 +229,11 @@ SLICEL 的 LUT 主要用于 Logic 逻辑功能，而 SLICEM 的 LUT 主要用于
 <p>在这个界面，我们可以将顶层设计模块中的输入输出端口与芯片的真实的管脚进行绑定。
 有两种方法，一种是添加设计约束文件进行绑定，另一种是使用图形化界面进行绑定。
 当然我认为第一种更便捷，不过推荐你两种方法都尝试一次。</p>
-<section id="id3">
-<h4>方法一 添加设计约束文件<a class="headerlink" href="#id3" title="Link to this heading"></a></h4>
+<section id="id4">
+<h4>方法一 添加设计约束文件<a class="headerlink" href="#id4" title="Link to this heading"></a></h4>
 <p>我们以复位按键信号的管脚绑定为例 (时钟信号以后再讲) ，以下是约束语句的含义。</p>
-<div class="literal-block-wrapper docutils container" id="id5">
-<div class="code-block-caption"><span class="caption-text">adder.xdc片段</span><a class="headerlink" href="#id5" title="Link to this code"></a></div>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">adder.xdc片段</span><a class="headerlink" href="#id7" title="Link to this code"></a></div>
 <div class="highlight-xdc notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span> set_property PACKAGE_PIN P20 [get_ports reset]
 <span class="linenos">2</span> set_property IOSTANDARD LVCMOS33 [get_ports reset]
 </pre></div>
@@ -201,8 +258,8 @@ P20 管脚与 S6 按键电路相连，可以用来作为复位信号输入。</p
 <img alt="Constraints" src="../_images/Constraints.png" />
 </figure>
 </section>
-<section id="id4">
-<h4>方法二 使用图形化绑定管脚<a class="headerlink" href="#id4" title="Link to this heading"></a></h4>
+<section id="id5">
+<h4>方法二 使用图形化绑定管脚<a class="headerlink" href="#id5" title="Link to this heading"></a></h4>
 <p>在 <code class="docutils literal notranslate"><span class="pre">Implemented</span> <span class="pre">Design</span></code> 界面，也可以使用图形化的方式绑定管脚。</p>
 <figure class="align-center">
 <img alt="io_planning" src="../_images/io_planning.png" />
@@ -218,6 +275,12 @@ P20 管脚与 S6 按键电路相连，可以用来作为复位信号输入。</p
 </section>
 <section id="open-hardware-manager">
 <h2>写入比特流 Open Hardware Manager<a class="headerlink" href="#open-hardware-manager" title="Link to this heading"></a></h2>
+<p>完成实现之后，点击 <code class="docutils literal notranslate"><span class="pre">Generate</span> <span class="pre">Bitstream</span></code> 会生成最后需要写入 FPGA 编程的文件，称之为比特流文件。
+如果在这一步报错，很可能是设计约束文件有错误，需要检查错误信息，设计约束文件是否错误。</p>
+<div class="admonition mycaution">
+   <p class="admonition-title">ASIC设计与FPGA的区别</p >
+   <p>请仔细检查你的驱动程序是否安装，如果没有安装，请按照 Vivado 安装教程安装驱动程序，否则电脑无法检测到 FPGA ，无法对 FPGA 进行编程。</p>
+</div><p>最后点击 <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Hardware</span> <span class="pre">Manager</span></code></p>
 </section>
 </section>
 

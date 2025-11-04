@@ -1,7 +1,7 @@
 实验三 加减法器设计
 ==========================================
 
-加法器实现减法操作
+加减法器
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 如果参与运算的操作数都是补码，那么加法器是可以同时实现加法和减法操作的。
@@ -24,6 +24,70 @@
       <p class="admonition-title">加法器的 RTL 实现</p >
       <p>使用实验二中的 cla_4bit 模块搭建层次化的 cla_8bit ，并仿真验证。
       然后按照上图的方式搭建能够实现减法操作的电路，完成最终的加法器设计并仿真验证。</p>
+   </div>
+
+
+输出加法器结果
+----------------------------------------
+
+我们提供了一些源代码，能够让你的加法器能够在 FPGA 上输入输出。加法器的输入有 8bit 的 a 和 b，以及 sub 信号，因此需要
+17个输入，我们的 FPGA 上拥有 24 个用户拨码开关。
+
+.. figure:: ../picture/lab3/minisys.png
+   :alt: minisys
+   :align: center
+
+我们计划使用 7段数码管 显示你的加法器结果，拨码开关作为你的加法器二进制输入，每一个开关代表一位二进制数。
+我们提供了 7段数码管 的控制电路：seg_driver 模块，你需要做的是将你的加法器结果输出到 seg_driver 模块的 data 端口，
+data 端口是32位宽的端口，因为有 8个 7段数码管，因此可以16进制数显示32位宽的二进制数。
+
+.. code-block:: v
+   :caption: 4位超前进位加法器代码框架
+   :emphasize-lines: 11, 23, 27
+   :linenos:
+
+    module top (
+        clk     
+        ,a      
+        ,b      
+        ,ctrl_addsub
+        ,reset  
+        ,code   
+        ,cs_o  
+    );
+
+    parameter n = 8;
+
+    input   wire            clk;    // 100 Mhz System Clock
+    input   wire    [n-1:0] a, b;
+    input   wire            ctrl_addsub;
+    input   wire            reset;
+    output  wire    [7:0]   code;
+    output  wire    [7:0]   cs_o;
+
+    wire    [n-1:0] sum;
+    wire            cout;
+
+    adder_sub_4bit u_adder_sub_4bit(a[3:0], b[3:0], sum[3:0], cout, ctrl_addsub);  // change to instant of your add/sub module
+
+    seg_driver u_seg_driver(
+        .clk     (clk)
+        ,.data   ({27'd0, cout, sum})   
+        ,.reset  (reset)
+        ,.code   (code)
+        ,.cs_o   (cs_o)
+    );
+
+    endmodule
+
+
+.. raw:: html
+
+   <div class="admonition mytodo">
+      <p class="admonition-title">加法器连接7段数码管</p >
+      <p>我们只需要修改第27行代码的 data 端口连接上你的加法器输出，同时注意位宽需要匹配。
+      完成 RTL 代码的修改。这样我们提供的7段数码管电路就会将你的二进制数转换为16进制数，
+      并最终在 FPGA 的7段数码管上显示出来。</p>
    </div>
 
 
@@ -173,3 +237,17 @@ S6 按键被我作为 ``reset`` 复位信号输入到 FPGA 内部，当按下 S6
 写入比特流 Open Hardware Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+完成实现之后，点击 ``Generate Bitstream`` 会生成最后需要写入 FPGA 编程的文件，称之为比特流文件。
+如果在这一步报错，很可能是设计约束文件有错误，需要检查错误信息，设计约束文件是否错误。
+
+
+
+.. raw:: html
+
+   <div class="admonition mycaution">
+      <p class="admonition-title">ASIC设计与FPGA的区别</p >
+      <p>请仔细检查你的驱动程序是否安装，如果没有安装，请按照 Vivado 安装教程安装驱动程序，否则电脑无法检测到 FPGA ，无法对 FPGA 进行编程。</p>
+   </div>
+
+
+最后点击 ``Open Hardware Manager`` 
