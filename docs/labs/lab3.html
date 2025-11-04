@@ -122,7 +122,7 @@
 我们提供了 7段数码管 的控制电路：seg_driver 模块，你需要做的是将你的加法器结果输出到 seg_driver 模块的 data 端口，
 data 端口是32位宽的端口，因为有 8个 7段数码管，因此可以16进制数显示32位宽的二进制数。</p>
 <div class="literal-block-wrapper docutils container" id="id6">
-<div class="code-block-caption"><span class="caption-text">4位超前进位加法器代码框架</span><a class="headerlink" href="#id6" title="Link to this code"></a></div>
+<div class="code-block-caption"><span class="caption-text">顶层模块代码框架</span><a class="headerlink" href="#id6" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">top</span><span class="w"> </span><span class="p">(</span>
 <span class="linenos"> 2</span><span class="w">     </span><span class="n">clk</span>
 <span class="linenos"> 3</span><span class="w">     </span><span class="p">,</span><span class="n">a</span>
@@ -181,7 +181,7 @@ data 端口是32位宽的端口，因为有 8个 7段数码管，因此可以16�
 多路选通器的输入通过我们编程配置，也就是将真值表填入多路选择信号，即可实现与或非、异或等门电路的功能。如上图所示。
 如果我要完成 <code class="docutils literal notranslate"><span class="pre">assign</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">(a</span> <span class="pre">&amp;</span> <span class="pre">b)</span> <span class="pre">|</span> <span class="pre">c;</span></code> 的逻辑功能，同理可以使用一个3输入查找表来实现，这些配置信息保存在存储器中。</p>
 <p>Xilinx 的 FPGA 查找表一般设计为6个输入，那么就需要64bit的存储器来存储6个变量所有的可能组合，这个查找表也可以作为两个5输入的查找表使用，
-也可以拆分成更小的查找表来使用。因此这些 6输入查找表 (LUT6) 可以完成非常的逻辑功能。</p>
+也可以拆分成更小的查找表来使用。因此这些 6输入查找表 (LUT6) 可以完成复杂的逻辑功能。</p>
 <figure class="align-center">
 <img alt="CLBLM" src="../_images/CLBLM.png" />
 </figure>
@@ -280,8 +280,23 @@ P20 管脚与 S6 按键电路相连，可以用来作为复位信号输入。</p
 <div class="admonition mycaution">
    <p class="admonition-title">ASIC设计与FPGA的区别</p >
    <p>请仔细检查你的驱动程序是否安装，如果没有安装，请按照 Vivado 安装教程安装驱动程序，否则电脑无法检测到 FPGA ，无法对 FPGA 进行编程。</p>
-</div><p>最后点击 <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Hardware</span> <span class="pre">Manager</span></code></p>
-</section>
+</div><p>将 FPGA 的 USB 接口与 电脑相连，打开电源开关， FPGA 将通电并发光，如下图所示。</p>
+<figure class="align-center">
+<img alt="poweron" src="../_images/poweron.png" />
+</figure>
+<p>最后点击 <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Hardware</span> <span class="pre">Manager</span></code> ，再点击 <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Target</span></code> ，点击 <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Connect</span></code> 自动连接设备。</p>
+<figure class="align-center">
+<img alt="hardware_manager" src="../_images/hardware_manager.png" />
+</figure>
+<p>如上图所示，成功连接 FPGA 后会在 <code class="docutils literal notranslate"><span class="pre">Hardware</span></code> 栏显示 FPGA 的状态和信息。
+点击编程设备，然后直接点击编程，等待编程进度条完毕。</p>
+<p>点击 <code class="docutils literal notranslate"><span class="pre">Program</span> <span class="pre">Device</span></code> 后默认会自动选择好比特流文件，如下图所示。
+如果你不小心删除了，可以手动选取生成的比特流文件，在工程目录的 <code class="docutils literal notranslate"><span class="pre">&lt;工程名&gt;.runs//impl_1/&lt;顶层模块名&gt;.bit</span></code> 。</p>
+<p>编程完成 FPGA 之后，即可尝试波动用户拨码开关，观察 7段数码管 的结果。</p>
+<div class="admonition mytodo">
+   <p class="admonition-title">上板实验</p >
+   <p>上板成功后，拍一张 FPGA 成功运行以及你的学生卡入镜头的照片，提交到实验报告中。</p>
+</div></section>
 </section>
 
 

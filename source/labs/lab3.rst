@@ -42,7 +42,7 @@
 data 端口是32位宽的端口，因为有 8个 7段数码管，因此可以16进制数显示32位宽的二进制数。
 
 .. code-block:: v
-   :caption: 4位超前进位加法器代码框架
+   :caption: 顶层模块代码框架
    :emphasize-lines: 11, 23, 27
    :linenos:
 
@@ -112,7 +112,7 @@ LUT (Look-Up Table) 查找表结构可以通过编程定义功能，逻辑功能
 如果我要完成 ``assign y = (a & b) | c;`` 的逻辑功能，同理可以使用一个3输入查找表来实现，这些配置信息保存在存储器中。
 
 Xilinx 的 FPGA 查找表一般设计为6个输入，那么就需要64bit的存储器来存储6个变量所有的可能组合，这个查找表也可以作为两个5输入的查找表使用，
-也可以拆分成更小的查找表来使用。因此这些 6输入查找表 (LUT6) 可以完成非常的逻辑功能。
+也可以拆分成更小的查找表来使用。因此这些 6输入查找表 (LUT6) 可以完成复杂的逻辑功能。
 
 .. figure:: ../picture/lab3/CLBLM.png
    :alt: CLBLM
@@ -240,8 +240,6 @@ S6 按键被我作为 ``reset`` 复位信号输入到 FPGA 内部，当按下 S6
 完成实现之后，点击 ``Generate Bitstream`` 会生成最后需要写入 FPGA 编程的文件，称之为比特流文件。
 如果在这一步报错，很可能是设计约束文件有错误，需要检查错误信息，设计约束文件是否错误。
 
-
-
 .. raw:: html
 
    <div class="admonition mycaution">
@@ -250,4 +248,31 @@ S6 按键被我作为 ``reset`` 复位信号输入到 FPGA 内部，当按下 S6
    </div>
 
 
-最后点击 ``Open Hardware Manager`` 
+将 FPGA 的 USB 接口与 电脑相连，打开电源开关， FPGA 将通电并发光，如下图所示。
+
+.. figure:: ../picture/lab3/poweron.png
+   :alt: poweron
+   :align: center
+
+最后点击 ``Open Hardware Manager`` ，再点击 ``Open Target`` ，点击 ``Auto Connect`` 自动连接设备。
+
+.. figure:: ../picture/lab3/hardware_manager.png
+   :alt: hardware_manager
+   :align: center
+
+
+如上图所示，成功连接 FPGA 后会在 ``Hardware`` 栏显示 FPGA 的状态和信息。
+点击编程设备，然后直接点击编程，等待编程进度条完毕。
+
+点击 ``Program Device`` 后默认会自动选择好比特流文件，如下图所示。
+如果你不小心删除了，可以手动选取生成的比特流文件，在工程目录的 ``<工程名>.runs//impl_1/<顶层模块名>.bit`` 。
+
+编程完成 FPGA 之后，即可尝试波动用户拨码开关，观察 7段数码管 的结果。
+
+.. raw:: html
+
+   <div class="admonition mytodo">
+      <p class="admonition-title">上板实验</p >
+      <p>上板成功后，拍一张 FPGA 成功运行以及你的学生卡入镜头的照片，提交到实验报告中。</p>
+   </div>
+
