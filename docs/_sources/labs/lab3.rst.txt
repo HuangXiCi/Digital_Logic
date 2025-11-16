@@ -182,7 +182,7 @@ SLICEL 的 LUT 主要用于 Logic 逻辑功能，而 SLICEM 的 LUT 主要用于
 
 我们以复位按键信号的管脚绑定为例 (时钟信号以后再讲) ，以下是约束语句的含义。
 
-.. code-block:: xdc
+.. code-block::
    :caption: adder.xdc片段
    :linenos:
 
