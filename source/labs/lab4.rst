@@ -174,7 +174,7 @@
 
     // assign out = sel[1] ? (sel[0] ? d : c) : (sel[0] ? b : a);
     assign out = ({W{sel == 2'b00}} & a) | ({W{sel == 2'b01}} & b) | 
-        ({W{sel == 2'b10}} & a) | ({W{sel == 2'b11}} & a);
+        ({W{sel == 2'b10}} & c) | ({W{sel == 2'b11}} & d);
 
     endmodule
 
@@ -324,7 +324,7 @@ generate 可以构造循环结构，用来多次实例化某个模块，或者�
             if (i < 2)
                 assign shl2[i] = shamt[1] ? 1'b0 : shl1[i];
             else
-                assign shl2[i] = shamt[1] ? shl1[i-1] : shl1[i];
+                assign shl2[i] = shamt[1] ? shl1[i-2] : shl1[i];
         end
     endgenerate
 
