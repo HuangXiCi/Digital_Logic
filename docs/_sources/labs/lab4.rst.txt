@@ -139,7 +139,8 @@
     endmodule
 
 
-二选一选通器代码示例使用了两种常见的实现方式，第一种方式是行为级建模，使用 **三目运算符 ? : ** ，
+
+二选一选通器代码示例使用了两种常见的实现方式，第一种方式是行为级建模，使用三目运算符，
 在高级语言里面很常见，当 ``sel`` 为真时 out = b，否则 out = a 。
 
 第二种方式是电路级建模， ``{W{sel}}`` 是 位拼接操作，将1位宽的sel信号复制W份拼接在一起。
@@ -184,23 +185,30 @@
 .. raw:: html
 
     <div class="admonition mycaution">
-        <p class="admonition-title"> 慎用 always 语法 </p>
-        <p>我们其实已经初步掌握了一些 Verilog 语法，但其实示例代码中还没有与 always 相关的部分，因为 always 的
-        使用比较复杂，我希望大家在掌握之前慎用，防止出现你难以理解的bugs。</p>
+        <p class="admonition-title"> 组合逻辑中慎用 always 语法 </p>
+        <p>我们其实已经初步掌握了一些 Verilog 语法，但其实示例代码中还没有与 always 相关的部分。
+        always 可以用来实现组合逻辑电路，以后的实验还会使用 always 实现时序逻辑电路。
+        因为 always 的使用比较复杂，我希望大家在掌握之前慎用，防止出现你难以理解的bugs。</p>
     </div>
 
 
-always 可以用来实现组合逻辑电路，以后的实验还会使用 always 实现时序逻辑电路。
 
 .. code-block:: v
-   :caption: always代码片段示例
-   :emphasize-lines: 1, 6, 8, 14, 16
+   :caption: always代码片段示例1
+   :emphasize-lines: 1
    :linenos:
 
     // assign out = a & b;
     always @(a or b)    begin
         out = a & b;
     end
+
+
+
+.. code-block:: v
+   :caption: always代码片段示例2
+   :emphasize-lines: 1
+   :linenos:
 
     // assign pop_cnt = in[0] + in[1] + in[2] + in[3] + in[4] + in[5] + in[6] + in[7];
     always @(*) begin
@@ -209,6 +217,13 @@ always 可以用来实现组合逻辑电路，以后的实验还会使用 always
             pop_cnt = pop_cnt + in[i];
         end
     end
+
+
+
+.. code-block:: v
+   :caption: always代码片段示例3
+   :emphasize-lines: 1
+   :linenos:
 
     // assign out = sel[1] ? (sel[0] ? in[31:24] : in[23:16]) : (sel[0] ? in[15:8] : in[7:0]);
     always @(*) begin
@@ -231,7 +246,7 @@ always @(*) 表示敏感信号为所有输入信号，可以防止遗漏，发�
 
 .. raw:: html
 
-   <div class="admonition mytodo">
+   <div class="admonition myoption">
       <p class="admonition-title">八选一选通器</p >
       <p>使用 assign 和 always 两种参考方法，实现八选一选通器，数据为8位宽，并
       通过 testbench 程序检验两种方法功能是否完全一致。</p>
@@ -255,10 +270,103 @@ always @(*) 表示敏感信号为所有输入信号，可以防止遗漏，发�
 
    <div class="admonition mytodo">
       <p class="admonition-title">16位桶形移位器</p >
-      <p>使用前面的选通器，参考上图或者参考<a class="reference external" href="https://gitee.com/cocoa_gitee/course_-fcma201_25-fall">南京大学的课程实验</a>
-      中的桶形移位器电路结构图，实现16位桶形移位器。有4位输入信号控制移位数，2位信号用来控制操作类型，
+      <p>使用前面的选通器，参考上图中的桶形移位器电路结构图，实现16位桶形移位器。
+      有4位shamt (shift amount) 输入信号控制移位量，2位op (operation) 信号用来控制操作类型，
       2'b00表示左移，2'b01表示逻辑右移，2'b11表示算数右移。</p>
    </div>
+
+
+当我们尝试使用 assign 去描述4位桶形移位器时，会发现很多重复的电路结构。
+
+.. code-block:: v
+   :caption: 4位桶形移位器代码片段示例1
+   :emphasize-lines: 1
+   :linenos:
+
+    wire [3:0] shl1;    // shift left 1-bit
+    assign shl1[0] = shamt[0] ? 1'b0    : data[0];
+    assign shl1[1] = shamt[0] ? data[0] : data[1];
+    assign shl1[0] = shamt[0] ? data[1] : data[2];
+    assign shl1[0] = shamt[0] ? data[2] : data[3];
+
+    wire [3:0] shl2;    // shift left 2-bit
+    assign shl2[0] = shamt[1] ? 1'b0    : shl1[0];
+    assign shl2[1] = shamt[1] ? 1'b0    : shl1[1];
+    assign shl2[0] = shamt[1] ? shl1[0] : shl1[2];
+    assign shl2[0] = shamt[1] ? shl1[1] : shl1[3];
+
+
+我们可以复制粘贴代码，然后仔细修改每一行代码，当然，也可以使用 ``generate`` 语法实现描述。
+generate 可以构造循环结构，用来多次实例化某个模块，或者实现重复的语句操作。
+我们给出两个代码示例来描述上面的4位桶形移位器代码片段示例1的结构。
+注意 genvar 是在 generate 语法中用做变量使用的，不能使用 integer 做变量。
+
+.. code-block:: v
+   :caption: 4位桶形移位器代码片段示例2
+   :emphasize-lines: 1
+   :linenos:
+
+    genvar i;
+    wire [3:0] shl1;    // shift left 1-bit
+    
+    generate
+        for (i = 0; i < 4; i = i + 1)   begin
+            if (i == 0)
+                assign shl1[i] = shamt[0] ? 1'b0 : data[i];
+            else
+                assign shl1[i] = shamt[0] ? data[i-1] : data[i];
+        end
+    endgenerate
+
+    wire [3:0] shl2;    // shift left 2-bit
+    generate
+        for (i = 0; i < 4; i = i + 1)   begin
+            if (i < 2)
+                assign shl2[i] = shamt[1] ? 1'b0 : shl1[i];
+            else
+                assign shl2[i] = shamt[1] ? shl1[i-1] : shl1[i];
+        end
+    endgenerate
+
+
+当然你也可以在 generate 块中多次实例化二选一选通器模块来描述这个电路。
+
+.. code-block:: v
+   :caption: 4位桶形移位器代码片段示例3
+   :emphasize-lines: 1, 5, 15
+   :linenos:
+
+    genvar i;
+    wire [3:0] shl1;    // shift left 1-bit
+    
+    generate
+        for (i = 0; i < 4; i = i + 1)   begin : gen_mux2_1_shl1
+            if (i == 0)
+                mux2_1 #(1) u_mux2_1(data[i], 1'b0, shamt[0], shl1[i]);
+            else
+                mux2_1 #(1) u_mux2_1(data[i], data[i-1], shamt[0], shl1[i]);
+        end
+    endgenerate
+
+    wire [3:0] shl2;    // shift left 2-bit
+    generate
+        for (i = 0; i < 4; i = i + 1)   begin : gen_mux2_1_shl2
+            if (i < 2)
+                mux2_1 #(1) u_mux2_1(shl1[i], 1'b0, shamt[1], shl2[i]);
+            else
+                mux2_1 #(1) u_mux2_1(shl1[i], shl1[i-1], shamt[1], shl2[i]);
+        end
+    endgenerate
+
+
+在使用 generate 多次实例化某个模块时，在 for 循环的 begin 后面加上 : <generate_blk_name>，
+可以在仿真时更好的区分每个模块，模块的命名会根据你添加的<generate_blk_name>生成模块的实例化名字。
+这样你就可以更方便的选取某个模块观察信号，如下图所示。
+
+.. figure:: ../picture/lab4/gen_blk_name.png
+   :alt: gen_blk_name
+   :align: center
+
 
 
 .. raw:: html
@@ -267,5 +375,6 @@ always @(*) 表示敏感信号为所有输入信号，可以防止遗漏，发�
       <p class="admonition-title"> 2'b10 的操作 </p >
       <p>当控制操作类型的信号是 2'b10 时，上面使用logisim实现的8位桶形移位器电路是完成什么操作，为什么呢？</p>
    </div>
+
 
 
