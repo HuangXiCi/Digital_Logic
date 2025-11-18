@@ -354,7 +354,7 @@ generate 可以构造循环结构，用来多次实例化某个模块，或者�
             if (i < 2)
                 mux2_1 #(1) u_mux2_1(shl1[i], 1'b0, shamt[1], shl2[i]);
             else
-                mux2_1 #(1) u_mux2_1(shl1[i], shl1[i-1], shamt[1], shl2[i]);
+                mux2_1 #(1) u_mux2_1(shl1[i], shl1[i-2], shamt[1], shl2[i]);
         end
     endgenerate
 
