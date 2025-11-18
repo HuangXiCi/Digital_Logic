@@ -286,14 +286,14 @@ always @(*) 表示敏感信号为所有输入信号，可以防止遗漏，发�
     wire [3:0] shl1;    // shift left 1-bit
     assign shl1[0] = shamt[0] ? 1'b0    : data[0];
     assign shl1[1] = shamt[0] ? data[0] : data[1];
-    assign shl1[0] = shamt[0] ? data[1] : data[2];
-    assign shl1[0] = shamt[0] ? data[2] : data[3];
+    assign shl1[2] = shamt[0] ? data[1] : data[2];
+    assign shl1[3] = shamt[0] ? data[2] : data[3];
 
     wire [3:0] shl2;    // shift left 2-bit
     assign shl2[0] = shamt[1] ? 1'b0    : shl1[0];
     assign shl2[1] = shamt[1] ? 1'b0    : shl1[1];
-    assign shl2[0] = shamt[1] ? shl1[0] : shl1[2];
-    assign shl2[0] = shamt[1] ? shl1[1] : shl1[3];
+    assign shl2[2] = shamt[1] ? shl1[0] : shl1[2];
+    assign shl2[3] = shamt[1] ? shl1[1] : shl1[3];
 
 
 我们可以复制粘贴代码，然后仔细修改每一行代码，当然，也可以使用 ``generate`` 语法实现描述。
