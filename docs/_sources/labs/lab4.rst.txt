@@ -159,7 +159,7 @@
     module mux4_1 #(
         parameter W = 8
     ) (
-        ,a      
+        a      
         ,b      
         ,c      
         ,d      
