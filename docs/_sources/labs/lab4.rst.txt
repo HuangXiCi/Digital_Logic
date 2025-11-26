@@ -122,7 +122,7 @@
     module mux2_1 #(
         parameter W = 8
     ) (
-        ,a      
+        a      
         ,b      
         ,sel    
         ,out    
