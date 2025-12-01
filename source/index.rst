@@ -18,6 +18,7 @@
    实验二 加法器设计与仿真 <labs/lab2>
    实验三 加减法器设计 <labs/lab3>
    实验四 桶形移位器设计 <labs/lab4>
+   实验五 时序逻辑电路设计 <labs/lab5>
    番外一 EDA发展史 <extra/extra1>
    敬请期待 <labs/TODO.rst>
 
