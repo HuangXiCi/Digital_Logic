@@ -70,7 +70,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id6">简单时序逻辑电路设计</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id7">计数器电路</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">时钟分频计数器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">简单时序逻辑电路</a></li>
 </ul>
 </li>
 </ul>
@@ -112,8 +113,8 @@
 <h2>always 描述组合逻辑电路时常见错误<a class="headerlink" href="#always" title="Link to this heading"></a></h2>
 <section id="if">
 <h3>if 语句分支不完整<a class="headerlink" href="#if" title="Link to this heading"></a></h3>
-<div class="literal-block-wrapper docutils container" id="id8">
-<div class="code-block-caption"><span class="caption-text">if 语句分支不完整示例</span><a class="headerlink" href="#id8" title="Link to this code"></a></div>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">if 语句分支不完整示例</span><a class="headerlink" href="#id9" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="w"> </span><span class="kt">reg</span><span class="w"> </span><span class="n">q</span><span class="p">;</span>
 <span class="linenos">2</span>
 <span class="linenos">3</span><span class="w"> </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
@@ -130,8 +131,8 @@
 </section>
 <section id="if-else">
 <h3>if-else 存在分支没给所有信号赋值<a class="headerlink" href="#if-else" title="Link to this heading"></a></h3>
-<div class="literal-block-wrapper docutils container" id="id9">
-<div class="code-block-caption"><span class="caption-text">if-else 存在分支没给所有信号赋值示例</span><a class="headerlink" href="#id9" title="Link to this code"></a></div>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">if-else 存在分支没给所有信号赋值示例</span><a class="headerlink" href="#id10" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="kt">reg</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="w"> </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
@@ -151,8 +152,8 @@
 <p>因此需要每个分支都要完整的描述每个信号的赋值。如果情况比较复杂，最好每个信号单独在一个 always 块
 中被赋值，防止出错。</p>
 <p>如果将上面的代码修改为下面这样写，就不会生成锁存器，描述完整了所有信号在每个分支的情况。</p>
-<div class="literal-block-wrapper docutils container" id="id10">
-<div class="code-block-caption"><span class="caption-text">if-else 存在默认赋值示例</span><a class="headerlink" href="#id10" title="Link to this code"></a></div>
+<div class="literal-block-wrapper docutils container" id="id11">
+<div class="code-block-caption"><span class="caption-text">if-else 存在默认赋值示例</span><a class="headerlink" href="#id11" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="kt">reg</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="w"> </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
@@ -171,8 +172,8 @@
 </section>
 <section id="if-else-case">
 <h3>if-else / case 没覆盖所有分支情况<a class="headerlink" href="#if-else-case" title="Link to this heading"></a></h3>
-<div class="literal-block-wrapper docutils container" id="id11">
-<div class="code-block-caption"><span class="caption-text">if-else 没覆盖所有分支情况</span><a class="headerlink" href="#id11" title="Link to this code"></a></div>
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-text">if-else 没覆盖所有分支情况</span><a class="headerlink" href="#id12" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="w"> </span><span class="kt">reg</span><span class="w"> </span><span class="n">q</span><span class="p">;</span>
 <span class="linenos">2</span>
 <span class="linenos">3</span><span class="w"> </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
@@ -186,8 +187,8 @@
 </div>
 </div>
 <p>只要存在某些输入组合时，q 没有被赋新值，那么 q 就会“保持原值”，生成锁存器电路。</p>
-<div class="literal-block-wrapper docutils container" id="id12">
-<div class="code-block-caption"><span class="caption-text">case 没覆盖所有分支情况</span><a class="headerlink" href="#id12" title="Link to this code"></a></div>
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-text">case 没覆盖所有分支情况</span><a class="headerlink" href="#id13" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="kt">reg</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="w"> </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
@@ -202,8 +203,8 @@
 </div>
 </div>
 <p>正确使用如下，对于其他的分支可以赋值默认值</p>
-<div class="literal-block-wrapper docutils container" id="id13">
-<div class="code-block-caption"><span class="caption-text">default 覆盖其他的分支</span><a class="headerlink" href="#id13" title="Link to this code"></a></div>
+<div class="literal-block-wrapper docutils container" id="id14">
+<div class="code-block-caption"><span class="caption-text">default 覆盖其他的分支</span><a class="headerlink" href="#id14" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="kt">reg</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="w"> </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
@@ -218,8 +219,8 @@
 </div>
 </div>
 <p>同样，如果有 default ，但有分支没给所有目标信号赋值：</p>
-<div class="literal-block-wrapper docutils container" id="id14">
-<div class="code-block-caption"><span class="caption-text">default 覆盖其他的分支</span><a class="headerlink" href="#id14" title="Link to this code"></a></div>
+<div class="literal-block-wrapper docutils container" id="id15">
+<div class="code-block-caption"><span class="caption-text">default 覆盖其他的分支</span><a class="headerlink" href="#id15" title="Link to this code"></a></div>
 <div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="kt">reg</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="w"> </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
@@ -242,9 +243,11 @@
 </div>
 </div>
 <p>在没有赋值的情况下， y 保持原值，生成锁存器电路。</p>
-<p>上面举了一些常见的例子说明描述组合逻辑电路时常见的生成了锁存器电路的错误，在使用casex/casez时也要特别注意，
-很容易生成锁存器电路，因此不推荐使用。</p>
-</section>
+<div class="admonition mycaution">
+    <p class="admonition-title"> 组合逻辑中慎用 always 语法 </p>
+    <p>上面举了一些常见的例子说明描述组合逻辑电路时常见的生成了锁存器电路的错误，在使用casex/casez时也要特别注意，
+    很容易生成锁存器电路，因此不推荐使用。我希望大家在掌握之前慎用它，防止出现你难以理解、难以调试的bugs。</p>
+</div></section>
 </section>
 <section id="dd">
 <h2>D锁存器和D触发器<a class="headerlink" href="#dd" title="Link to this heading"></a></h2>
@@ -289,7 +292,7 @@
 <section id="id5">
 <h4>什么时候会使用锁存器<a class="headerlink" href="#id5" title="Link to this heading"></a></h4>
 <p>可以在定时电路中引入延迟、作为缓冲区，或在特定间隔采集数据。</p>
-<p>在高速电路中，可以通过锁存器的透明窗口，慢路径可以“借用”下一段的时间，提高总体时钟频率。</p>
+<p>在高速电路中，可以通过锁存器的透明窗口，慢的路径可以“借用”下一段的时间，提高总体时钟频率。</p>
 <p>在低功耗设计中，锁存器由于比触发器的晶体管数量更少，面积更小，功耗更低。</p>
 <p>所以，需要使用锁存器的情况比较进阶，作为初学者，不推荐你使用锁存器。</p>
 </section>
@@ -298,10 +301,106 @@
 <section id="id6">
 <h2>简单时序逻辑电路设计<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <section id="id7">
-<h3>计数器电路<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
-<p>在数字系统中，我们经常使用计数器来记录系统的状态。比如我们的系统时钟为10Mhz，想要获得一个1Hz的时钟，我们可以从
-0计数到4999999，共0.5s，然后翻转信号来获得1Hz的时钟。</p>
-</section>
+<h3>时钟分频计数器<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p>假设我们的系统时钟为100Hz，想要获得一个1Hz的时钟，我们可以每个时钟都计数，
+从0计数到49，共0.5s，然后翻转信号来获得1Hz的时钟。</p>
+<figure class="align-center">
+<img alt="clk_div1" src="../_images/clk_div1.png" />
+</figure>
+<p>还有一种方法，是计数到99时将标志位信号拉高1个时钟，获得1Hz的时钟，不过占空比不是1/2 。</p>
+<figure class="align-center">
+<img alt="clk_div2" src="../_images/clk_div2.png" />
+</figure>
+<p>上面两种办法都创造了一个新时钟，我们可以通过这个1Hz的时钟，完成一些简单的时序逻辑电路功能，
+并将结果显示在七段数码管上。</p>
+<div class="admonition myhint">
+    <p class="admonition-title"> 创建标志位信号而不是新的时钟 </p>
+    <p>其实更好的方法是，创建一个标志位信号，时钟仍然使用唯一的系统时钟，而不是创建一个新的时钟。
+    当标志位信号有效，寄存器才写入新的值，这样就不用在同一个系统中存在多个时钟。
+    标志位信号其实与第二种方法创建的拉高1个时钟周期的时钟的行为看上去一样，
+    只不过标志位信号不是用来当时钟使用，而是用作使能信号。</p>
+</div></section>
+<section id="id8">
+<h3>简单时序逻辑电路<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<p>我们的 FPGA 板的晶振产生的时钟为 100Mhz ，需要将 100Mhz 的时钟分频为 1Hz ，或者创造一个 1Hz 的标志位信号。
+1Hz 的时钟方便演示操作，我们会将输出的信号显示在七段数码管上。</p>
+<p>我们的时钟管脚和复位按钮的管脚以及电路结构都在 <strong>Minisys硬件手册</strong> 中。</p>
+<figure class="align-center">
+<img alt="clock" src="../_images/clock.png" />
+</figure>
+<p>时钟使用 Y18 管脚，频率为 100Mhz。</p>
+<figure class="align-center">
+<img alt="reset" src="../_images/reset.png" />
+</figure>
+<p>复位按钮使用 S6 ，对应的管脚为 P20 ，从电路图中可以看出，当按键按下时 P20 输入高电平，
+松开按键时，P20 接地，输入低电平，所以复位可以设计为高电平有效。</p>
+<div class="literal-block-wrapper docutils container" id="id16">
+<div class="code-block-caption"><span class="caption-text">代码框架</span><a class="headerlink" href="#id16" title="Link to this code"></a></div>
+<div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">shift_reg</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos"> 2</span><span class="w">     </span><span class="n">clk</span>
+<span class="linenos"> 3</span><span class="w">     </span><span class="p">,</span><span class="n">reset</span>
+<span class="linenos"> 4</span><span class="w">     </span><span class="p">,</span><span class="n">data</span>
+<span class="linenos"> 5</span><span class="w">     </span><span class="p">,</span><span class="n">shamt</span>
+<span class="linenos"> 6</span><span class="w">     </span><span class="p">,</span><span class="n">op</span>
+<span class="linenos"> 7</span><span class="w">     </span><span class="p">,</span><span class="n">out</span>
+<span class="linenos"> 8</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="w"> </span><span class="k">input</span><span class="w">   </span><span class="n">clk</span><span class="p">,</span><span class="w"> </span><span class="n">reset</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">shamt</span><span class="p">,</span><span class="w"> </span><span class="n">op</span><span class="p">;</span>
+<span class="linenos">11</span><span class="w"> </span><span class="k">output</span><span class="w">  </span><span class="n">out</span><span class="p">;</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="w"> </span><span class="c1">// clk freq is 100Mhz</span>
+<span class="linenos">14</span><span class="w"> </span><span class="kt">wire</span><span class="w">    </span><span class="n">clk</span><span class="p">,</span><span class="w"> </span><span class="n">reset</span><span class="p">;</span>
+<span class="linenos">15</span><span class="w"> </span><span class="kt">wire</span><span class="w">    </span><span class="p">[</span><span class="mh">15</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">  </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">;</span>
+<span class="linenos">16</span><span class="w"> </span><span class="kt">wire</span><span class="w">    </span><span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">   </span><span class="n">shamt</span><span class="p">;</span>
+<span class="linenos">17</span><span class="w"> </span><span class="kt">wire</span><span class="w">    </span><span class="p">[</span><span class="mh">1</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">   </span><span class="n">op</span><span class="p">;</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="w"> </span><span class="c1">// coding here</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="w"> </span><span class="k">endmodule</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition mytodo">
+    <p class="admonition-title"> 一个多周期的移位器 </p>
+    <p>本次我们实验还是做一个移位器，不过是每一秒移动一位，移位同样是包括左移，逻辑右移和逻辑右移。
+    实现一个多周期的移位器。</p>
+</div><p>输入的data，shamt，op信号与上一次的实验一样，通过用户开关输入。
+不过我们需要在复位的时候将这些信号寄存起来，而不是随时可以修改这些信号。
+每次修改这些信号需要按下复位按键才会重新寄存起来。我们的操作都是基于这些寄存起来的信号，
+然后每周期移动一位，shamt用来指示计数器，当计数器小于shamt，说明还需要继续移位。</p>
+<div class="admonition mytodo">
+    <p class="admonition-title"> Testbench 编写 </p>
+    <p>下面的代码框架给出了时钟和复位信号，请完善仿真代码框架，上板之前请完成好仿真。
+    我们鼓励每次上板之前都完成仿真测试，而不是上板之后去Debug</p>
+</div><div class="literal-block-wrapper docutils container" id="id17">
+<div class="code-block-caption"><span class="caption-text">仿真代码框架</span><a class="headerlink" href="#id17" title="Link to this code"></a></div>
+<div class="highlight-v notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="no">`timescale</span><span class="w"> </span><span class="mh">1</span><span class="n">ns</span><span class="o">/</span><span class="mh">1</span><span class="n">ps</span>
+<span class="linenos"> 2</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">tb</span><span class="p">;</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="w"> </span><span class="kt">reg</span><span class="w">   </span><span class="n">clk</span><span class="p">,</span><span class="w"> </span><span class="n">reset</span><span class="p">;</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="c1">// coding here</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="w"> </span><span class="k">initial</span><span class="w"> </span><span class="k">begin</span>
+<span class="linenos"> 9</span><span class="w">     </span><span class="n">clk</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="linenos">10</span><span class="w">     </span><span class="n">reset</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b1</span><span class="p">;</span><span class="w">  </span><span class="c1">// reset active</span>
+<span class="linenos">11</span><span class="w">     </span><span class="p">#</span><span class="mh">1000</span>
+<span class="linenos">12</span><span class="w">     </span><span class="n">reset</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="linenos">13</span><span class="w"> </span><span class="k">end</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="w"> </span><span class="c1">// clk freq is 100Mhz</span>
+<span class="linenos">16</span><span class="w"> </span><span class="k">always</span><span class="w"> </span><span class="p">#</span><span class="mh">5</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="o">~</span><span class="n">clk</span><span class="p">;</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="w"> </span><span class="k">endmodule</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition myhint">
+    <p class="admonition-title"> Testbench 仿真太长 </p>
+    <p>我们可以利用延迟创建一个100Mhz的时钟输入，但是如果仿真到1s的过程非常漫长，
+    我们可以在仿真时修改计数器的最大值，假设只需要100us移动一位，而不是1s移动移位。
+    这样仿真过程不会特别漫长，在综合的时候再将计数器的最大值修改回去即可。</p>
+</div></section>
 </section>
 </section>
 

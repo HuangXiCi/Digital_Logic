@@ -165,8 +165,15 @@ if-else / case 没覆盖所有分支情况
 
 在没有赋值的情况下， y 保持原值，生成锁存器电路。
 
-上面举了一些常见的例子说明描述组合逻辑电路时常见的生成了锁存器电路的错误，在使用casex/casez时也要特别注意，
-很容易生成锁存器电路，因此不推荐使用。
+.. raw:: html
+
+    <div class="admonition mycaution">
+        <p class="admonition-title"> 组合逻辑中慎用 always 语法 </p>
+        <p>上面举了一些常见的例子说明描述组合逻辑电路时常见的生成了锁存器电路的错误，在使用casex/casez时也要特别注意，
+        很容易生成锁存器电路，因此不推荐使用。我希望大家在掌握之前慎用它，防止出现你难以理解、难以调试的bugs。</p>
+    </div>
+
+
 
 D锁存器和D触发器
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -227,7 +234,7 @@ D触发器由两个D锁存器构成，如下图电路结构所示：
 
 可以在定时电路中引入延迟、作为缓冲区，或在特定间隔采集数据。
 
-在高速电路中，可以通过锁存器的透明窗口，慢路径可以“借用”下一段的时间，提高总体时钟频率。
+在高速电路中，可以通过锁存器的透明窗口，慢的路径可以“借用”下一段的时间，提高总体时钟频率。
 
 在低功耗设计中，锁存器由于比触发器的晶体管数量更少，面积更小，功耗更低。
 
@@ -236,10 +243,135 @@ D触发器由两个D锁存器构成，如下图电路结构所示：
 简单时序逻辑电路设计
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-计数器电路
+时钟分频计数器
 -----------------------
 
-在数字系统中，我们经常使用计数器来记录系统的状态。比如我们的系统时钟为10Mhz，想要获得一个1Hz的时钟，我们可以从
-0计数到4999999，共0.5s，然后翻转信号来获得1Hz的时钟。
+假设我们的系统时钟为100Hz，想要获得一个1Hz的时钟，我们可以每个时钟都计数，
+从0计数到49，共0.5s，然后翻转信号来获得1Hz的时钟。
 
+.. figure:: ../picture/lab5/clk_div1.png
+   :alt: clk_div1
+   :align: center
+
+还有一种方法，是计数到99时将标志位信号拉高1个时钟，获得1Hz的时钟，不过占空比不是1/2 。
+
+.. figure:: ../picture/lab5/clk_div2.png
+   :alt: clk_div2
+   :align: center
+
+上面两种办法都创造了一个新时钟，我们可以通过这个1Hz的时钟，完成一些简单的时序逻辑电路功能，
+并将结果显示在七段数码管上。
+
+.. raw:: html
+
+    <div class="admonition myhint">
+        <p class="admonition-title"> 创建标志位信号而不是新的时钟 </p>
+        <p>其实更好的方法是，创建一个标志位信号，时钟仍然使用唯一的系统时钟，而不是创建一个新的时钟。
+        当标志位信号有效，寄存器才写入新的值，这样就不用在同一个系统中存在多个时钟。
+        标志位信号其实与第二种方法创建的拉高1个时钟周期的时钟的行为看上去一样，
+        只不过标志位信号不是用来当时钟使用，而是用作使能信号。</p>
+    </div>
+
+
+简单时序逻辑电路
+--------------------------
+
+我们的 FPGA 板的晶振产生的时钟为 100Mhz ，需要将 100Mhz 的时钟分频为 1Hz ，或者创造一个 1Hz 的标志位信号。
+1Hz 的时钟方便演示操作，我们会将输出的信号显示在七段数码管上。
+
+我们的时钟管脚和复位按钮的管脚以及电路结构都在 **Minisys硬件手册** 中。
+
+.. figure:: ../picture/lab5/clock.png
+   :alt: clock
+   :align: center
+
+时钟使用 Y18 管脚，频率为 100Mhz。
+
+.. figure:: ../picture/lab5/reset.png
+   :alt: reset
+   :align: center
+
+复位按钮使用 S6 ，对应的管脚为 P20 ，从电路图中可以看出，当按键按下时 P20 输入高电平，
+松开按键时，P20 接地，输入低电平，所以复位可以设计为高电平有效。
+
+.. code-block:: v
+   :caption: 代码框架
+   :linenos:
+
+    module shift_reg (
+        clk         
+        ,reset      
+        ,data       
+        ,shamt      
+        ,op         
+        ,out        
+    );
+
+    input   clk, reset, data, shamt, op;
+    output  out;
+
+    // clk freq is 100Mhz
+    wire    clk, reset;
+    wire    [15:0]  data, out;
+    wire    [3:0]   shamt;
+    wire    [1:0]   op;
+
+    // coding here
+
+    endmodule
+
+
+.. raw:: html
+
+    <div class="admonition mytodo">
+        <p class="admonition-title"> 一个多周期的移位器 </p>
+        <p>本次我们实验还是做一个移位器，不过是每一秒移动一位，移位同样是包括左移，逻辑右移和逻辑右移。
+        实现一个多周期的移位器。</p>
+    </div>
+
+输入的data，shamt，op信号与上一次的实验一样，通过用户开关输入。
+不过我们需要在复位的时候将这些信号寄存起来，而不是随时可以修改这些信号。
+每次修改这些信号需要按下复位按键才会重新寄存起来。我们的操作都是基于这些寄存起来的信号，
+然后每周期移动一位，shamt用来指示计数器，当计数器小于shamt，说明还需要继续移位。
+
+.. raw:: html
+
+    <div class="admonition mytodo">
+        <p class="admonition-title"> Testbench 编写 </p>
+        <p>下面的代码框架给出了时钟和复位信号，请完善仿真代码框架，上板之前请完成好仿真。
+        我们鼓励每次上板之前都完成仿真测试，而不是上板之后去Debug</p>
+    </div>
+
+.. code-block:: v
+   :caption: 仿真代码框架
+   :linenos:
+
+    `timescale 1ns/1ps
+    module tb;
+
+    reg   clk, reset;
+
+    // coding here
+
+    initial begin
+        clk <= 1'b0;
+        reset <= 1'b1;  // reset active
+        #1000
+        reset <= 1'b0;
+    end
+
+    // clk freq is 100Mhz
+    always #5 clk <= ~clk;
+
+    endmodule
+
+
+.. raw:: html
+
+    <div class="admonition myhint">
+        <p class="admonition-title"> Testbench 仿真太长 </p>
+        <p>我们可以利用延迟创建一个100Mhz的时钟输入，但是如果仿真到1s的过程非常漫长，
+        我们可以在仿真时修改计数器的最大值，假设只需要100us移动一位，而不是1s移动移位。
+        这样仿真过程不会特别漫长，在综合的时候再将计数器的最大值修改回去即可。</p>
+    </div>
 
