@@ -202,3 +202,107 @@
          计算一个无符号数和一个补码表示的有符号数相乘进行测试。目前不需要上FPGA板，等之后完成了输入输出的部分再进行上板实验。</p>
     </div>
 
+
+乘法器输入
+--------------------
+
+我们的乘法器的输入部分设计如下：
+
+FPGA 的 SW0~SW15 作为数据A或者B输入、SW16 用于指示数据A或者数据B是有符号数还是无符号数，当SW16为1时，
+为有符号数，0时为无符号数。SW17 作为数据A 输入的标志位，SW18 作为数据B 输入的标志位，SW19作为开始计算的标志位。
+
+我们需要约定如下状态机，在INPUTA阶段，先输入数据A，使用SW0~SW15指示数据A的值，SW16 用于指示数据A是有符号数还是无符号数。
+当SW17为1，存储数据A的值和数据类型，进入INPUTB阶段；输入数据B，同样使用SW0~SW15指示数据B的值，SW16 用于指示数据B是有符号数还是无符号数。
+当SW18为1，存储数据A的值和数据类型，进入READY阶段；当SW19为1时，进入DATA_VALID阶段；
+此时将乘法器的数据输入valid信号置为有效，数据A、B和它们的数据类型传入乘法器，开始进行乘法计算。
+
+在若干个周期乘法器计算完成之后，乘法器会将finish信号置为有效。finish信号用于标志数码管显示的结果，
+当finish有效时，数码管上应该显示乘法器的32位结果，否则显示16位的数据A和16位的数据B，以{DataA, DataB}的方式位拼接起来显示。
+
+当我们想要重新输入数据，通过reset信号，将各个状态机恢复如初，然后重新按照上面的方法输入数据。
+
+输入设计的参考状态机如下：
+
+- INPUTA：等待数据A和数据类型的输入
+- INPUTB：等待数据B和数据类型的输入
+- READY：用于显示数据A和数据B，等待准备开始乘法计算
+- DATA_VALID：将乘法器的输入valid置为有效，数据A、B和它们的数据类型传入乘法器
+
+输入valid之后，乘法器开始正常工作，直到计算出结果，将结果显示在七段数码管上。
+
+.. raw:: html
+
+    <div class="admonition mytodo">
+         <p class="admonition-title"> 完成16位多周期移位乘法器上板 </p>
+         <p>参照输入设计，完成输入功能，并将结果给七段数码管模块，功能需要按照规定实现，
+         但如何设计，状态机划分可以自定义实现。完成所有的设计。</p>
+    </div>
+
+下面是代码框架参考：
+
+.. code-block:: v
+   :caption: 四选一选通器代码示例
+   :emphasize-lines: 15, 16
+   :linenos:
+
+      module top (
+         clk     
+         ,reset  
+         ,data   
+         ,code   
+         ,cs_o  
+      );
+
+      input   wire            clk;    // 100 Mhz System Clock
+      input   wire            reset;
+      input   wire   [23:0]   data;
+      output  wire    [7:0]   code;
+      output  wire    [7:0]   cs_o;
+
+      wire    [15:0]  a, b;
+      wire    sign_a, sign_b, valid;
+
+      fsm_input u_fsm_input(
+         .clk             (clk         )  // <<i<<
+         ,.reset          (reset       )  // <<i<<
+         ,.data_in        (data[15:0]  )  // <<i<<
+         ,.sign_in        (data[16]    )  // <<i<<
+         ,.valid_a        (data[17]    )  // <<i<<
+         ,.valid_b        (data[18]    )  // <<i<<
+         ,.ready          (data[19]    )  // <<i<<
+         ,.a              (a           )  // >>o>>
+         ,.b              (b           )  // >>o>>
+         ,.sign_a         (sign_a      )  // >>o>>
+         ,.sign_b         (sign_b      )  // >>o>>
+         ,.valid          (valid       )  // >>o>>
+      );
+
+      wire    [31:0]  result;
+      wire    finish;
+
+      mul u_mul(
+         .clk         (clk    )  // <<i<<
+         ,.reset      (reset  )  // <<i<<
+         ,.a          (a      )  // <<i<<
+         ,.b          (b      )  // <<i<<
+         ,.sign_a     (sign_a )  // <<i<<
+         ,.sign_b     (sign_b )  // <<i<<
+         ,.valid      (valid  )  // <<i<<
+         ,.result     (result )  // >>o>>
+         ,.finish     (finish )  // >>o>>
+      );
+
+      wire    [31:0]  display_data;
+      assign  display_data = finish ? result : {a, b};
+
+      seg_driver u_seg_driver(
+         .clk     (clk           )  // <<i<<
+         ,.data   (display_data  )  // <<i<<
+         ,.reset  (reset         )  // <<i<<
+         ,.code   (code          )  // >>o>>
+         ,.cs_o   (cs_o          )  // >>o>>
+      );
+
+      endmodule
+
+
