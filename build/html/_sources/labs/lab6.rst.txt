@@ -241,7 +241,7 @@ FPGA 的 SW0~SW15 作为数据A或者B输入、SW16 用于指示数据A或者数
 下面是代码框架参考：
 
 .. code-block:: v
-   :caption: 四选一选通器代码示例
+   :caption: 乘法器代码框架参考
    :linenos:
 
       module top (
