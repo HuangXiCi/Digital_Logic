@@ -7,8 +7,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = '深圳理工大学-数字逻辑基础与Verilog设计-实验课程'
-copyright = '2025, 深圳理工大学'
-author = '深圳理工大学'
+copyright = '2025, 陈奕含，黄夕祠'
+author = '黄夕祠'
 release = '0.1'
 
 # -- General configuration ---------------------------------------------------
